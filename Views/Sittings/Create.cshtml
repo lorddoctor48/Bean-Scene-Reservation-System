@@ -1,0 +1,72 @@
+﻿@model Project_Assessment_Bean_Scene_Registration_Application.Models.Sitting
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Sitting</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SittingTypeID" class="control-label"></label>
+                <select asp-for="SittingTypeID" class ="form-control" asp-items="ViewBag.SittingTypeID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SittingStartDate" class="control-label"></label>
+                <input asp-for="SittingStartDate" class="form-control" />
+                <span asp-validation-for="SittingStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SittingEndDate" class="control-label"></label>
+                <input asp-for="SittingEndDate" class="form-control" />
+                <span asp-validation-for="SittingEndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SittingStartTime" class="control-label"></label>
+                <input asp-for="SittingStartTime" class="form-control" />
+                <span asp-validation-for="SittingStartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SittingEndTime" class="control-label"></label>
+                <input asp-for="SittingEndTime" class="form-control" />
+                <span asp-validation-for="SittingEndTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SittingCapacity" class="control-label"></label>
+                <input asp-for="SittingCapacity" class="form-control" />
+                <span asp-validation-for="SittingCapacity" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsClosed" /> @Html.DisplayNameFor(model => model.IsClosed)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClosureDate" class="control-label"></label>
+                <input asp-for="ClosureDate" class="form-control" />
+                <span asp-validation-for="ClosureDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClosureReason" class="control-label"></label>
+                <input asp-for="ClosureReason" class="form-control" />
+                <span asp-validation-for="ClosureReason" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

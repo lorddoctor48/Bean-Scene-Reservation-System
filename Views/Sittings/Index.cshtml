@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Project_Assessment_Bean_Scene_Registration_Application.Models.Sitting>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SittingId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SittingType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SittingStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SittingEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SittingStartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SittingEndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SittingCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsClosed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosureReason)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SittingId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SittingType.SittingTypeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SittingStartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SittingEndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SittingStartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SittingEndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SittingCapacity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsClosed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosureDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosureReason)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.SittingId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.SittingId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.SittingId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
