@@ -6,7 +6,7 @@ variables:
   APP_TYPE: webApp
   AZURE_PACKAGE_PATH: published
   AZURE_RESOURCE_GROUP: BeanScene
-  AZURE_SUBSCRIPTION: AzureServiceConnection
+  AZURE_SUBSCRIPTION: Azure for Students (51905e81-e63c-414a-91ff-e9c3208f2304)
   CONFIGURATION: Release
   DEPLOY_DISPLAY_NAME: Deploy 'ProjectAssessmentBeanSceneRegistrationApp' to Azure App Service
   DOTNET_CORE_VERSION: 8.0.x
