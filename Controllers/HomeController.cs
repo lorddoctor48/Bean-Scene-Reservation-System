@@ -11,6 +11,16 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
             return View();
         }
 
+        public IActionResult StaffDashboard()
+        {
+            return View();
+        }
+
+        public IActionResult ManagerDashboard()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
