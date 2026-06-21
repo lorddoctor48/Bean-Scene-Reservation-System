@@ -6,9 +6,12 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
     public class Status
     {
         [Key]
-        [DisplayName("Status")]
+        [Required]
+        public int StatusId { get; set; }
 
-        [MaxLength(50)]
+        [DisplayName("Status")]
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
         public required string StatusTitle { get; set; }
     }
 }

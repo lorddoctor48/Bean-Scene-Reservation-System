@@ -6,7 +6,8 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
     public class TableArea
     {
         [Key]
-        [MaxLength(20)]
+        [StringLength(20, MinimumLength = 3)]
+        [Required]
         public required string Area {  get; set; }
     }
 }
