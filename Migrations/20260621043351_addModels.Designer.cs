@@ -12,15 +12,15 @@ using Project_Assessment_Bean_Scene_Registration_Application.Data;
 namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260530114945_add-models")]
-    partial class addmodels
+    [Migration("20260621043351_addModels")]
+    partial class addModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.8")
+                .HasAnnotation("ProductVersion", "10.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -235,9 +235,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationID"));
 
-                    b.Property<int>("DurationMin")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -268,8 +265,8 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<DateOnly>("ReservationDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("ReservationSourcesourceTitle")
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<TimeOnly>("ReservationEndTime")
+                        .HasColumnType("time");
 
                     b.Property<TimeOnly>("ReservationStartTime")
                         .HasColumnType("time");
@@ -277,29 +274,26 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<int>("SittingId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SourceTitleId")
+                        .HasMaxLength(20)
+                        .HasColumnType("int");
+
                     b.Property<string>("SpecialRequests")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StatusTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StatusTitle1")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
 
                     b.Property<string>("TableNo")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("tableNo")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ReservationID");
-
-                    b.HasIndex("ReservationSourcesourceTitle");
 
                     b.HasIndex("SittingId");
 
-                    b.HasIndex("StatusTitle1");
+                    b.HasIndex("SourceTitleId");
+
+                    b.HasIndex("StatusId");
 
                     b.HasIndex("TableNo");
 
@@ -308,11 +302,18 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.ReservationSource", b =>
                 {
-                    b.Property<string>("sourceTitle")
+                    b.Property<int>("SourceTitleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SourceTitleId"));
+
+                    b.Property<string>("SourceTitle")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("sourceTitle");
+                    b.HasKey("SourceTitleId");
 
                     b.ToTable("ReservationsSource");
                 });
@@ -350,13 +351,13 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<TimeOnly>("SittingStartTime")
                         .HasColumnType("time");
 
-                    b.Property<int>("SittingTypeID")
+                    b.Property<int>("SittingTypeId")
                         .HasMaxLength(20)
                         .HasColumnType("int");
 
                     b.HasKey("SittingId");
 
-                    b.HasIndex("SittingTypeID");
+                    b.HasIndex("SittingTypeId");
 
                     b.ToTable("Sittings");
                 });
@@ -384,11 +385,18 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Status", b =>
                 {
+                    b.Property<int>("StatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusId"));
+
                     b.Property<string>("StatusTitle")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("StatusTitle");
+                    b.HasKey("StatusId");
 
                     b.ToTable("Status");
                 });
@@ -398,12 +406,14 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<string>("TableNo")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Area1")
+                    b.Property<string>("TableArea")
+                        .IsRequired()
+                        .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("TableNo");
 
-                    b.HasIndex("Area1");
+                    b.HasIndex("TableArea");
 
                     b.ToTable("Table");
                 });
@@ -472,20 +482,23 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation", b =>
                 {
-                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ReservationSource", "ReservationSource")
-                        .WithMany()
-                        .HasForeignKey("ReservationSourcesourceTitle");
-
                     b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Sitting", "Sitting")
                         .WithMany()
                         .HasForeignKey("SittingId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ReservationSource", "ReservationSource")
+                        .WithMany()
+                        .HasForeignKey("SourceTitleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Status", "Status")
                         .WithMany()
-                        .HasForeignKey("StatusTitle1")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Table", "Table")
                         .WithMany()
@@ -505,7 +518,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                 {
                     b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.SittingType", "SittingType")
                         .WithMany()
-                        .HasForeignKey("SittingTypeID")
+                        .HasForeignKey("SittingTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -516,8 +529,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                 {
                     b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", "Area")
                         .WithMany()
-                        .HasForeignKey("Area1")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("TableArea")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Area");
                 });
