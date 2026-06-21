@@ -1,0 +1,18 @@
+@model Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea</h4>
+    <hr />
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Area" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
