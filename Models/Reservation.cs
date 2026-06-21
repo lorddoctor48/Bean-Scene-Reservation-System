@@ -86,7 +86,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
 
         [ForeignKey(nameof(SourceTitleId))]
         public ReservationSource? ReservationSource { get; set; }
-
+                                                    
 
         [DisplayName("Special Requests")]
         public string? SpecialRequests { get; set; }
