@@ -307,6 +307,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
                     b.HasKey("SourceTitleId");
 
+                    b.HasIndex("SourceTitle")
+                        .IsUnique();
+
                     b.ToTable("ReservationsSource");
                 });
 
@@ -390,6 +393,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
                     b.HasKey("StatusId");
 
+                    b.HasIndex("StatusTitle")
+                        .IsUnique();
+
                     b.ToTable("Status");
                 });
 
@@ -406,6 +412,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.HasKey("TableNo");
 
                     b.HasIndex("TableArea");
+
+                    b.HasIndex("TableNo")
+                        .IsUnique();
 
                     b.ToTable("Table");
                 });
