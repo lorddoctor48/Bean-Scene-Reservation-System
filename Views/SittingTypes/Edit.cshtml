@@ -4,9 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Edit Sitting Type</h1>
 
-<h4>SittingType</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,18 +14,22 @@
             <input type="hidden" asp-for="SittingTypeId" />
             <div class="form-group">
                 <label asp-for="SittingTitle" class="control-label"></label>
-                <input asp-for="SittingTitle" class="form-control" />
+                <input asp-for="SittingTitle" class="form-control" autofocus />
                 <span asp-validation-for="SittingTitle" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="row mt-4 justify-content-center">
+                <div class="col">
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+
+                <div class="col">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a></>
+                </div>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
