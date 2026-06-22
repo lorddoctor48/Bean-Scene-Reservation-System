@@ -14,7 +14,7 @@ public class StatusController : Controller
     }
 
     // GET: STATUSS
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index()
     {
         return View(await _context.Status.ToListAsync());
     }
@@ -60,14 +60,15 @@ public class StatusController : Controller
     }
 
     // GET: STATUSS/Edit/5
-    public async Task<IActionResult> Edit(int? statusid)
+
+    public async Task<IActionResult> Edit(int? id)
     {
-        if (statusid == null)
+        if (id == null)
         {
             return NotFound();
         }
 
-        var status = await _context.Status.FindAsync(statusid);
+        var status = await _context.Status.FindAsync(id);
         if (status == null)
         {
             return NotFound();
@@ -80,9 +81,9 @@ public class StatusController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? statusid, [Bind("StatusId,StatusTitle")] Status status)
+    public async Task<IActionResult> Edit(int? id, [Bind("StatusId,StatusTitle")] Status status)
     {
-        if (statusid != status.StatusId)
+        if (id != status.StatusId)
         {
             return NotFound();
         }
@@ -111,15 +112,15 @@ public class StatusController : Controller
     }
 
     // GET: STATUSS/Delete/5
-    public async Task<IActionResult> Delete(int? statusid)
+    public async Task<IActionResult> Delete(int? id)
     {
-        if (statusid == null)
+        if (id == null)
         {
             return NotFound();
         }
 
         var status = await _context.Status
-            .FirstOrDefaultAsync(m => m.StatusId == statusid);
+            .FirstOrDefaultAsync(m => m.StatusId == id);
         if (status == null)
         {
             return NotFound();

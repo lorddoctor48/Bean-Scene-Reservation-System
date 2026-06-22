@@ -14,7 +14,7 @@ public class ReservationSourcesController : Controller
     }
 
     // GET: RESERVATIONSOURCES
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index()
     {
         return View(await _context.ReservationsSource.ToListAsync());
     }
@@ -60,14 +60,14 @@ public class ReservationSourcesController : Controller
     }
 
     // GET: RESERVATIONSOURCES/Edit/5
-    public async Task<IActionResult> Edit(int? sourcetitleid)
+    public async Task<IActionResult> Edit(int? id)
     {
-        if (sourcetitleid == null)
+        if (id == null)
         {
             return NotFound();
         }
 
-        var reservationsource = await _context.ReservationsSource.FindAsync(sourcetitleid);
+        var reservationsource = await _context.ReservationsSource.FindAsync(id);
         if (reservationsource == null)
         {
             return NotFound();
@@ -80,9 +80,9 @@ public class ReservationSourcesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? sourcetitleid, [Bind("SourceTitleId,SourceTitle")] ReservationSource reservationsource)
+    public async Task<IActionResult> Edit(int? id, [Bind("SourceTitleId,SourceTitle")] ReservationSource reservationsource)
     {
-        if (sourcetitleid != reservationsource.SourceTitleId)
+        if (id != reservationsource.SourceTitleId)
         {
             return NotFound();
         }
@@ -111,15 +111,15 @@ public class ReservationSourcesController : Controller
     }
 
     // GET: RESERVATIONSOURCES/Delete/5
-    public async Task<IActionResult> Delete(int? sourcetitleid)
+    public async Task<IActionResult> Delete(int? id)
     {
-        if (sourcetitleid == null)
+        if (id == null)
         {
             return NotFound();
         }
 
         var reservationsource = await _context.ReservationsSource
-            .FirstOrDefaultAsync(m => m.SourceTitleId == sourcetitleid);
+            .FirstOrDefaultAsync(m => m.SourceTitleId == id);
         if (reservationsource == null)
         {
             return NotFound();
