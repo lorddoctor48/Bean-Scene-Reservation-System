@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_Assessment_Bean_Scene_Registration_Application.Models;
 using Project_Assessment_Bean_Scene_Registration_Application.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class TablesController : Controller
 {
@@ -14,21 +15,22 @@ public class TablesController : Controller
     }
 
     // GET: TABLES
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index()
     {
-        return View(await _context.Table.ToListAsync());
+        var tables = await _context.Table.Include(t => t.TableArea).ToListAsync();
+        return View(tables);
     }
 
     // GET: TABLES/Details/5
-    public async Task<IActionResult> Details(string? tableno)
+    public async Task<IActionResult> Details(string? id)
     {
-        if (tableno == null)
+        if (id == null)
         {
             return NotFound();
         }
 
         var table = await _context.Table
-            .FirstOrDefaultAsync(m => m.TableNo == tableno);
+            .FirstOrDefaultAsync(m => m.TableNo == id);
         if (table == null)
         {
             return NotFound();
@@ -40,6 +42,7 @@ public class TablesController : Controller
     // GET: TABLES/Create
     public IActionResult Create()
     {
+        ViewData["TableAreaId"] = new SelectList(_context.TableAreas, "TableAreaId", "Area");
         return View();
     }
 
@@ -48,26 +51,33 @@ public class TablesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("TableNo,TableArea,Area,Reservations")] Table table)
+    public async Task<IActionResult> Create([Bind("TableNo,TableAreaId,")] Table table)
     {
+        if (!ModelState.IsValid)
+        {
+            return View(table);
+        }
+
         if (ModelState.IsValid)
         {
             _context.Add(table);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
+
+        ViewData["TableAreaId"] = new SelectList(_context.TableAreas, "TableAreaId", "Area");
         return View(table);
     }
 
     // GET: TABLES/Edit/5
-    public async Task<IActionResult> Edit(string? tableno)
+    public async Task<IActionResult> Edit(string? id)
     {
-        if (tableno == null)
+        if (id == null)
         {
             return NotFound();
         }
 
-        var table = await _context.Table.FindAsync(tableno);
+        var table = await _context.Table.FindAsync(id);
         if (table == null)
         {
             return NotFound();
@@ -80,9 +90,9 @@ public class TablesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string? tableno, [Bind("TableNo,TableArea,Area,Reservations")] Table table)
+    public async Task<IActionResult> Edit(string? id, [Bind("TableNo,TableArea,Area,Reservations")] Table table)
     {
-        if (tableno != table.TableNo)
+        if (id != table.TableNo)
         {
             return NotFound();
         }
@@ -111,15 +121,15 @@ public class TablesController : Controller
     }
 
     // GET: TABLES/Delete/5
-    public async Task<IActionResult> Delete(string? tableno)
+    public async Task<IActionResult> Delete(string? id)
     {
-        if (tableno == null)
+        if (id == null)
         {
             return NotFound();
         }
 
         var table = await _context.Table
-            .FirstOrDefaultAsync(m => m.TableNo == tableno);
+            .FirstOrDefaultAsync(m => m.TableNo == id);
         if (table == null)
         {
             return NotFound();
@@ -131,9 +141,9 @@ public class TablesController : Controller
     // POST: TABLES/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(string? tableno)
+    public async Task<IActionResult> DeleteConfirmed(string? id)
     {
-        var table = await _context.Table.FindAsync(tableno);
+        var table = await _context.Table.FindAsync(id);
         if (table != null)
         {
             _context.Table.Remove(table);
@@ -143,8 +153,8 @@ public class TablesController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    private bool TableExists(string? tableno)
+    private bool TableExists(string? id)
     {
-        return _context.Table.Any(e => e.TableNo == tableno);
+        return _context.Table.Any(e => e.TableNo == id);
     }
 }

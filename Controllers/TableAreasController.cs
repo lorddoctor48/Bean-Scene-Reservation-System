@@ -14,21 +14,21 @@ public class TableAreasController : Controller
     }
 
     // GET: TABLEAREAS
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index()
     {
-        return View(await _context.TableAreas.ToListAsync());
+        return View(await _context.TableAreas.Select(t => new TableArea { TableAreaId = t.TableAreaId, Area = t.Area, HasChildren = t.Area.Any()}).ToListAsync());
     }
 
     // GET: TABLEAREAS/Details/5
-    public async Task<IActionResult> Details(string? area)
+    public async Task<IActionResult> Details(int? tableareaid)
     {
-        if (area == null)
+        if (tableareaid == null)
         {
             return NotFound();
         }
 
         var tablearea = await _context.TableAreas
-            .FirstOrDefaultAsync(m => m.Area == area);
+            .FirstOrDefaultAsync(m => m.TableAreaId == tableareaid);
         if (tablearea == null)
         {
             return NotFound();
@@ -48,7 +48,7 @@ public class TableAreasController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Area")] TableArea tablearea)
+    public async Task<IActionResult> Create([Bind("TableAreaId,Area,Tables")] TableArea tablearea)
     {
         if (ModelState.IsValid)
         {
@@ -60,14 +60,14 @@ public class TableAreasController : Controller
     }
 
     // GET: TABLEAREAS/Edit/5
-    public async Task<IActionResult> Edit(string? area)
+    public async Task<IActionResult> Edit(int? id)
     {
-        if (area == null)
+        if (id == null)
         {
             return NotFound();
         }
 
-        var tablearea = await _context.TableAreas.FindAsync(area);
+        var tablearea = await _context.TableAreas.FindAsync(id);
         if (tablearea == null)
         {
             return NotFound();
@@ -80,9 +80,9 @@ public class TableAreasController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string? area, [Bind("Area")] TableArea tablearea)
+    public async Task<IActionResult> Edit(int? id, [Bind("TableAreaId,Area,Tables")] TableArea tablearea)
     {
-        if (area != tablearea.Area)
+        if (id != tablearea.TableAreaId)
         {
             return NotFound();
         }
@@ -96,7 +96,7 @@ public class TableAreasController : Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TableAreaExists(tablearea.Area))
+                if (!TableAreaExists(tablearea.TableAreaId))
                 {
                     return NotFound();
                 }
@@ -111,15 +111,15 @@ public class TableAreasController : Controller
     }
 
     // GET: TABLEAREAS/Delete/5
-    public async Task<IActionResult> Delete(string? area)
+    public async Task<IActionResult> Delete(int? id)
     {
-        if (area == null)
+        if (id == null)
         {
             return NotFound();
         }
 
         var tablearea = await _context.TableAreas
-            .FirstOrDefaultAsync(m => m.Area == area);
+            .FirstOrDefaultAsync(m => m.TableAreaId == id);
         if (tablearea == null)
         {
             return NotFound();
@@ -131,9 +131,9 @@ public class TableAreasController : Controller
     // POST: TABLEAREAS/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(string? area)
+    public async Task<IActionResult> DeleteConfirmed(int? tableareaid)
     {
-        var tablearea = await _context.TableAreas.FindAsync(area);
+        var tablearea = await _context.TableAreas.FindAsync(tableareaid);
         if (tablearea != null)
         {
             _context.TableAreas.Remove(tablearea);
@@ -143,8 +143,8 @@ public class TableAreasController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    private bool TableAreaExists(string? area)
+    private bool TableAreaExists(int? tableareaid)
     {
-        return _context.TableAreas.Any(e => e.Area == area);
+        return _context.TableAreas.Any(e => e.TableAreaId == tableareaid);
     }
 }
