@@ -100,7 +100,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
         [DeleteBehavior(DeleteBehavior.Restrict)]
         public Status? Status { get; set; }
 
-        public ICollection<Table> Table { get; set; } = [];
+        public ICollection<Table> Tables { get; set; } = new List<Table>();
 
     }
 }

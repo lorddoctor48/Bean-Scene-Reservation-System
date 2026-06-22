@@ -15,14 +15,12 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
 
         [DisplayName("Table Area")]
         [Required]
-        [StringLength(20, MinimumLength = 3)]
-        [ForeignKey(nameof(Area))]
-        public required string TableArea { get; set; }
+        public int TableAreaId { get; set; } 
 
         [DeleteBehavior(DeleteBehavior.Restrict)]
-        public TableArea? Area { get; set; }
+        public TableArea? TableArea { get; set; } 
 
         [DisplayName("Assigned Reservations")]
-        public ICollection<Reservation> Reservations { get; } = [];
+        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }

@@ -4,44 +4,69 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="Bean-Scene-h1">Tables</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<hr />
+
+<div class="row fs-6">
+    @* <div class="col-md-2">
+        <h1>Sitting Types</h1>
+    </div> *@
+    <div class="col-md-2">
+        <p>
+            <a asp-controller="Home" asp-action="ManagerDashboard" class="btn btn-secondary">Go Back</a>
+        </p>
+
+    </div>
+    <div class="col-md-3">
+        <p>
+            <a asp-action="Create" class="btn btn-primary btn-lg">Add Tables</a>
+        </p>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.TableNo)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.TableArea)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Area)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.Reservations)
-            </th>
+            </th> *@
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.TableArea)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Area)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.TableNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.TableArea.Area)
+                </td>
+                @* <td>
                 @Html.DisplayFor(model => item.Reservations)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.TableNo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TableNo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TableNo">Delete</a>
-            </td>
-        </tr>
-}
+            </td> *@
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.TableNo" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-pencil-fill me-1"></i>
+                        Edit
+                    </a>
+                    @* <a asp-action="Details" asp-route-id="@item.SittingTypeId">Details</a> *@
+                    <a asp-action="Delete" asp-route-id="@item.TableNo" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash-fill"></i>
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

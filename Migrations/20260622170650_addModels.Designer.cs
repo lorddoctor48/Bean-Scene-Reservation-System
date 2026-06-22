@@ -12,7 +12,7 @@ using Project_Assessment_Bean_Scene_Registration_Application.Data;
 namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260621043351_addModels")]
+    [Migration("20260622170650_addModels")]
     partial class addModels
     {
         /// <inheritdoc />
@@ -284,9 +284,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
-                    b.Property<string>("TableNo")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("ReservationID");
 
                     b.HasIndex("SittingId");
@@ -294,8 +291,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.HasIndex("SourceTitleId");
 
                     b.HasIndex("StatusId");
-
-                    b.HasIndex("TableNo");
 
                     b.ToTable("Reservations");
                 });
@@ -314,6 +309,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("SourceTitleId");
+
+                    b.HasIndex("SourceTitle")
+                        .IsUnique();
 
                     b.ToTable("ReservationsSource");
                 });
@@ -398,6 +396,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
                     b.HasKey("StatusId");
 
+                    b.HasIndex("StatusTitle")
+                        .IsUnique();
+
                     b.ToTable("Status");
                 });
 
@@ -406,27 +407,53 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<string>("TableNo")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("TableArea")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int>("TableAreaId")
+                        .HasColumnType("int");
 
                     b.HasKey("TableNo");
 
-                    b.HasIndex("TableArea");
+                    b.HasIndex("TableAreaId");
+
+                    b.HasIndex("TableNo")
+                        .IsUnique();
 
                     b.ToTable("Table");
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", b =>
                 {
+                    b.Property<int>("TableAreaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TableAreaId"));
+
                     b.Property<string>("Area")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("Area");
+                    b.HasKey("TableAreaId");
+
+                    b.HasIndex("Area")
+                        .IsUnique();
 
                     b.ToTable("TableAreas");
+                });
+
+            modelBuilder.Entity("ReservationTable", b =>
+                {
+                    b.Property<int>("ReservationID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TableNo")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ReservationID", "TableNo");
+
+                    b.HasIndex("TableNo");
+
+                    b.ToTable("ReservationTable", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -500,18 +527,11 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Table", "Table")
-                        .WithMany()
-                        .HasForeignKey("TableNo")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("ReservationSource");
 
                     b.Navigation("Sitting");
 
                     b.Navigation("Status");
-
-                    b.Navigation("Table");
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Sitting", b =>
@@ -527,13 +547,33 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Table", b =>
                 {
-                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", "Area")
-                        .WithMany()
-                        .HasForeignKey("TableArea")
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", "TableArea")
+                        .WithMany("Tables")
+                        .HasForeignKey("TableAreaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Area");
+                    b.Navigation("TableArea");
+                });
+
+            modelBuilder.Entity("ReservationTable", b =>
+                {
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation", null)
+                        .WithMany()
+                        .HasForeignKey("ReservationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Table", null)
+                        .WithMany()
+                        .HasForeignKey("TableNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", b =>
+                {
+                    b.Navigation("Tables");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,8 +12,8 @@ using Project_Assessment_Bean_Scene_Registration_Application.Data;
 namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260621041016_IdentityConfiguration")]
-    partial class IdentityConfiguration
+    [Migration("20260622163715_identityConfiguration")]
+    partial class identityConfiguration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

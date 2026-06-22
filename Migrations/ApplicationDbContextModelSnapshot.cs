@@ -404,14 +404,12 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<string>("TableNo")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("TableArea")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int>("TableAreaId")
+                        .HasColumnType("int");
 
                     b.HasKey("TableNo");
 
-                    b.HasIndex("TableArea");
+                    b.HasIndex("TableAreaId");
 
                     b.HasIndex("TableNo")
                         .IsUnique();
@@ -421,28 +419,38 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", b =>
                 {
+                    b.Property<int>("TableAreaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TableAreaId"));
+
                     b.Property<string>("Area")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("Area");
+                    b.HasKey("TableAreaId");
+
+                    b.HasIndex("Area")
+                        .IsUnique();
 
                     b.ToTable("TableAreas");
                 });
 
             modelBuilder.Entity("ReservationTable", b =>
                 {
-                    b.Property<int>("ReservationsReservationID")
+                    b.Property<int>("ReservationID")
                         .HasColumnType("int");
 
                     b.Property<string>("TableNo")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ReservationsReservationID", "TableNo");
+                    b.HasKey("ReservationID", "TableNo");
 
                     b.HasIndex("TableNo");
 
-                    b.ToTable("ReservationTable");
+                    b.ToTable("ReservationTable", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -536,20 +544,20 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Table", b =>
                 {
-                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", "Area")
-                        .WithMany()
-                        .HasForeignKey("TableArea")
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", "TableArea")
+                        .WithMany("Tables")
+                        .HasForeignKey("TableAreaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Area");
+                    b.Navigation("TableArea");
                 });
 
             modelBuilder.Entity("ReservationTable", b =>
                 {
                     b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation", null)
                         .WithMany()
-                        .HasForeignKey("ReservationsReservationID")
+                        .HasForeignKey("ReservationID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -558,6 +566,11 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .HasForeignKey("TableNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", b =>
+                {
+                    b.Navigation("Tables");
                 });
 #pragma warning restore 612, 618
         }

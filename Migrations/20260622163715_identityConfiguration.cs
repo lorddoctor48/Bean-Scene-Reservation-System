@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 {
     /// <inheritdoc />
-    public partial class IdentityConfiguration : Migration
+    public partial class identityConfiguration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

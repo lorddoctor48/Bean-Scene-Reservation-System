@@ -4,9 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="Bean-Scene-h1">Edit Table</h1>
 
-<h4>Table</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,31 +13,27 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="TableNo" />
             <div class="form-group">
-                <label asp-for="TableArea" class="control-label"></label>
-                <input asp-for="TableArea" class="form-control" />
-                <span asp-validation-for="TableArea" class="text-danger"></span>
+                <label asp-for="TableNo" class="control-label"></label>
+                <input asp-for="TableNo" class="form-control" autofocus />
+                <span asp-validation-for="TableNo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Area" class="control-label"></label>
-                <input asp-for="Area" class="form-control" />
-                <span asp-validation-for="Area" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Reservations" class="control-label"></label>
-                <input asp-for="Reservations" class="form-control" />
-                <span asp-validation-for="Reservations" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="row mt-4 justify-content-center">
+                <div class="col">
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+
+                <div class="col">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a></>
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

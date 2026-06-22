@@ -54,11 +54,13 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                 name: "TableAreas",
                 columns: table => new
                 {
+                    TableAreaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Area = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TableAreas", x => x.Area);
+                    table.PrimaryKey("PK_TableAreas", x => x.TableAreaId);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,16 +95,16 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                 columns: table => new
                 {
                     TableNo = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TableArea = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    TableAreaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Table", x => x.TableNo);
                     table.ForeignKey(
-                        name: "FK_Table_TableAreas_TableArea",
-                        column: x => x.TableArea,
+                        name: "FK_Table_TableAreas_TableAreaId",
+                        column: x => x.TableAreaId,
                         principalTable: "TableAreas",
-                        principalColumn: "Area",
+                        principalColumn: "TableAreaId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -121,7 +123,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     ReservationDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ReservationStartTime = table.Column<TimeOnly>(type: "time", nullable: false),
                     ReservationEndTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    TableNo = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     NumberOfPeople = table.Column<int>(type: "int", nullable: false),
                     SourceTitleId = table.Column<int>(type: "int", maxLength: 20, nullable: false),
                     SpecialRequests = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -149,12 +150,30 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         principalTable: "Status",
                         principalColumn: "StatusId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReservationTable",
+                columns: table => new
+                {
+                    ReservationID = table.Column<int>(type: "int", nullable: false),
+                    TableNo = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReservationTable", x => new { x.ReservationID, x.TableNo });
                     table.ForeignKey(
-                        name: "FK_Reservations_Table_TableNo",
+                        name: "FK_ReservationTable_Reservations_ReservationID",
+                        column: x => x.ReservationID,
+                        principalTable: "Reservations",
+                        principalColumn: "ReservationID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReservationTable_Table_TableNo",
                         column: x => x.TableNo,
                         principalTable: "Table",
                         principalColumn: "TableNo",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -173,8 +192,14 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_TableNo",
-                table: "Reservations",
+                name: "IX_ReservationsSource_SourceTitle",
+                table: "ReservationsSource",
+                column: "SourceTitle",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReservationTable_TableNo",
+                table: "ReservationTable",
                 column: "TableNo");
 
             migrationBuilder.CreateIndex(
@@ -189,16 +214,40 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Table_TableArea",
+                name: "IX_Status_StatusTitle",
+                table: "Status",
+                column: "StatusTitle",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Table_TableAreaId",
                 table: "Table",
-                column: "TableArea");
+                column: "TableAreaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Table_TableNo",
+                table: "Table",
+                column: "TableNo",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TableAreas_Area",
+                table: "TableAreas",
+                column: "Area",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ReservationTable");
+
+            migrationBuilder.DropTable(
                 name: "Reservations");
+
+            migrationBuilder.DropTable(
+                name: "Table");
 
             migrationBuilder.DropTable(
                 name: "ReservationsSource");
@@ -210,13 +259,10 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                 name: "Status");
 
             migrationBuilder.DropTable(
-                name: "Table");
+                name: "TableAreas");
 
             migrationBuilder.DropTable(
                 name: "SittingTypes");
-
-            migrationBuilder.DropTable(
-                name: "TableAreas");
         }
     }
 }
