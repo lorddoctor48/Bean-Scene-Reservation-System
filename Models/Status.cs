@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Project_Assessment_Bean_Scene_Registration_Application.Models
 {
+    [Index(nameof(StatusTitle), IsUnique = true)]
     public class Status
     {
         [Key]
