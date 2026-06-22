@@ -1,10 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Project_Assessment_Bean_Scene_Registration_Application.Models
 {
-    [Index(nameof(SourceTitle), IsUnique = true)]
-
     public class ReservationSource
     {
 
