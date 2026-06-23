@@ -4,39 +4,50 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="Bean-Scene-h1">Sittings</h1>
 
+<hr />
 
 <div class="row fs-6">
-    <div class="col">
-        <h1>Sitting</h1>
-    </div>
-    <div class="col">
+    @* <div class="col-md-2">
+        <h1>Sitting Types</h1>
+    </div> *@
+    <div class="col-md-2">
         <p>
-            <a asp-action="Create" class="btn btn-primary btn-lg">Add Sitting </a>
+            <a asp-controller="Home" asp-action="ManagerDashboard" class="btn btn-secondary">Go Back</a>
+        </p>
+
+    </div>
+    <div class="col-md-3">
+        <p>
+            <a asp-action="Create" class="btn btn-primary btn-lg">Add Sittings</a>
         </p>
     </div>
+
+    <div class="col-md-3">
+        <p>
+            <a asp-action="BulkCreateOnRange" class="btn btn-primary btn-lg">Bulk Add Sittings with Range</a>
+        </p>
+    </div>
+
 </div>
 
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.SittingId)
-            </th>
+            </th> *@
+
             <th>
-                @Html.DisplayNameFor(model => model.SittingType)
+                @Html.DisplayNameFor(model => model.SittingDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SittingStartDate)
-            </th>
-            <th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.SittingDate)
+            </th> *@
+            @* <th>
                 @Html.DisplayNameFor(model => model.SittingEndDate)
-            </th>
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.SittingStartTime)
             </th>
@@ -44,17 +55,20 @@
                 @Html.DisplayNameFor(model => model.SittingEndTime)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.SittingType)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.SittingCapacity)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IsClosed)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.ClosureDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ClosureReason)
-            </th>
+            </th> *@
             <th></th>
         </tr>
     </thead>
@@ -62,18 +76,19 @@
         @foreach (var item in Model)
         {
             <tr>
+                @* <td> *@
+                @*     @Html.DisplayFor(modelItem => item.SittingId)
+                </td> *@
+
                 <td>
-                    @Html.DisplayFor(modelItem => item.SittingId)
+                    @Html.DisplayFor(modelItem => item.SittingDate)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SittingType.SittingTypeId)
-                </td>
-                <td>
+                @* <td>
                     @Html.DisplayFor(modelItem => item.SittingStartDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SittingEndDate)
-                </td>
+                </td> *@
                 <td>
                     @Html.DisplayFor(modelItem => item.SittingStartTime)
                 </td>
@@ -81,21 +96,33 @@
                     @Html.DisplayFor(modelItem => item.SittingEndTime)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.SittingType.SittingTitle)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.SittingCapacity)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IsClosed)
                 </td>
-                <td>
+                @* <td>
                     @Html.DisplayFor(modelItem => item.ClosureDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ClosureReason)
-                </td>
+                </td> *@
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.SittingId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.SittingId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.SittingId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.SittingId" class="btn btn-secondary btn-sm" aria-label="Edit" title="Edit">
+                        <i class="bi bi-pencil-fill me-1"></i>
+                        Edit
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.SittingId" class="btn btn-secondary btn-sm" >
+                        <i class="bi bi-file-text"></i>
+                        Details
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.SittingId" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash-fill"></i>
+                        Delete
+                    </a>
                 </td>
             </tr>
         }

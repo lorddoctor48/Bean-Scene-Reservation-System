@@ -4,69 +4,75 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1 class=" Bean-Scene-h1">Sitting Details</h1>
 
 <div>
-    <h4>Sitting</h4>
     <hr />
+
     <dl class="row">
-        <dt class = "col-sm-2">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SittingId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SittingId)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.SittingType)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SittingType.SittingTypeId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SittingType.SittingTitle)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SittingStartDate)
+        <dt>
+            @Html.DisplayNameFor(model => model.SittingDate)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SittingStartDate)
+        <dd>
+            @Html.DisplayNameFor(model => model.SittingDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SittingEndDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SittingEndDate)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt>
             @Html.DisplayNameFor(model => model.SittingStartTime)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.SittingStartTime)
         </dd>
-        <dt class = "col-sm-2">
+        <dt>
             @Html.DisplayNameFor(model => model.SittingEndTime)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.SittingEndTime)
         </dd>
-        <dt class = "col-sm-2">
+        <dt>
             @Html.DisplayNameFor(model => model.SittingCapacity)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.SittingCapacity)
         </dd>
-        <dt class = "col-sm-2">
+        <dt>
             @Html.DisplayNameFor(model => model.IsClosed)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IsClosed)
         </dd>
-        <dt class = "col-sm-2">
+        <dt>
             @Html.DisplayNameFor(model => model.ClosureDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ClosureDate)
         </dd>
-        <dt class = "col-sm-2">
+        <dt>
             @Html.DisplayNameFor(model => model.ClosureReason)
         </dt>
-        <dd class = "col-sm-10">
+        <dd>
             @Html.DisplayFor(model => model.ClosureReason)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.SittingId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="row mt-4">
+        <div class="col-2">
+            <a asp-action="Edit" asp-route-id="@Model?.SittingId" class="btn btn-primary">Edit</a>
+        </div>
+        <div class="col-2">
+
+            <a asp-action="Index" class="btn btn-secondary">>Back to List</a>
+        </div>
+    </div>
 </div>
