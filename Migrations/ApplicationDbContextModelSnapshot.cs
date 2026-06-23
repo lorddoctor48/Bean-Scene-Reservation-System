@@ -334,6 +334,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<int>("SittingCapacity")
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("SittingDate")
+                        .HasColumnType("date");
+
                     b.Property<DateOnly>("SittingEndDate")
                         .HasColumnType("date");
 
@@ -347,7 +350,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .HasColumnType("time");
 
                     b.Property<int>("SittingTypeId")
-                        .HasMaxLength(20)
                         .HasColumnType("int");
 
                     b.HasKey("SittingId");
