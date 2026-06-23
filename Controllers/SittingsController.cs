@@ -48,7 +48,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         // GET: Sittings/Create
         public IActionResult Create()
         {
-            ViewData["SittingTypeID"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTypeId");
+            ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SittingId,SittingTypeID,SittingStartDate,SittingEndDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting)
+        public async Task<IActionResult> Create([Bind("SittingId,SittingTypeId,SittingDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting)
         {
             if (ModelState.IsValid)
             {
@@ -65,8 +65,53 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SittingTypeID"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTypeId", sitting.SittingTypeId);
+
+            ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle", sitting.SittingTypeId);
             return View(sitting);
+        }
+
+
+        // GET: Sittings/Create
+        public IActionResult BulkCreateOnRange()
+        {
+            ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle");
+            return View();
+        }
+
+        // POST: Sittings/BulkCreateOnRange
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkCreateOnRange([Bind("SittingId,SittingTypeId,SittingStartDate,SittingEndDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting) //A custom method for creating multiple sittings based on the range between start and end date.
+        {
+            if (!ModelState.IsValid) //checking whether the inputted fields 
+            {
+                ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle", sitting.SittingTypeId);
+                return View(sitting);
+            }
+
+            /* A for loop for creating sittings from the inputted start date to the inputted start date */
+            for (var date = sitting.SittingStartDate; date <= sitting.SittingEndDate; date = date.AddDays(1)) //AddDays method to create a date instance for every sitting records being bulk inserted into the database
+            {
+                var newSitting = new Sitting
+                {
+
+                    /* Creating values for the each new sitting records */
+                    SittingTypeId = sitting.SittingTypeId,
+                    SittingDate = date,
+                    SittingStartTime = sitting.SittingStartTime,
+                    SittingEndTime = sitting.SittingEndTime,
+                    SittingCapacity = sitting.SittingCapacity,
+                    IsClosed = sitting.IsClosed,
+                    ClosureDate = sitting.ClosureDate,
+                    ClosureReason = sitting.ClosureReason
+                };
+
+                _context.Sittings.Add(newSitting); //Adding new sitting records into the ApplicationDbContext
+            }
+            await _context.SaveChangesAsync(); //Saves the newly created sittings records
+            return RedirectToAction(nameof(Index)); //Redirect the user to the index page of 
         }
 
         // GET: Sittings/Edit/5
@@ -82,7 +127,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
             {
                 return NotFound();
             }
-            ViewData["SittingTypeID"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTypeId", sitting.SittingTypeId);
+            ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle", sitting.SittingTypeId);
             return View(sitting);
         }
 
@@ -91,7 +136,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SittingId,SittingTypeID,SittingStartDate,SittingEndDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting)
+        public async Task<IActionResult> Edit(int id, [Bind("SittingId,SittingTypeId,SittingDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting)
         {
             if (id != sitting.SittingId)
             {
@@ -118,7 +163,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SittingTypeID"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTypeId", sitting.SittingTypeId);
+            ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle", sitting.SittingTypeId);
             return View(sitting);
         }
 

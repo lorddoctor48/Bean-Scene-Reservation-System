@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Project_Assessment_Bean_Scene_Registration_Application.Models;
 using Project_Assessment_Bean_Scene_Registration_Application.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 public class TablesController : Controller
 {
@@ -17,8 +18,8 @@ public class TablesController : Controller
     // GET: TABLES
     public async Task<IActionResult> Index()
     {
-        var tables = await _context.Table.Include(t => t.TableArea).ToListAsync();
-        return View(tables);
+        var applicationDbContext = _context.Table.Include(s => s.TableArea);
+        return View(await applicationDbContext.ToListAsync());
     }
 
     // GET: TABLES/Details/5
@@ -51,7 +52,7 @@ public class TablesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("TableNo,TableAreaId,")] Table table)
+    public async Task<IActionResult> Create([Bind("TableNo,TableAreaId,")] Project_Assessment_Bean_Scene_Registration_Application.Models.Table table)
     {
         if (!ModelState.IsValid)
         {
@@ -82,6 +83,9 @@ public class TablesController : Controller
         {
             return NotFound();
         }
+
+        ViewData["TableAreaId"] = new SelectList(_context.TableAreas, "TableAreaId","Area",table.TableAreaId);
+
         return View(table);
     }
 
@@ -90,7 +94,7 @@ public class TablesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string? id, [Bind("TableNo,TableArea,Area,Reservations")] Table table)
+    public async Task<IActionResult> Edit(string? id, [Bind("TableNo,TableAreaId")] Project_Assessment_Bean_Scene_Registration_Application.Models.Table table)
     {
         if (id != table.TableNo)
         {
@@ -117,6 +121,7 @@ public class TablesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
+        ViewData["TableAreaId"] = new SelectList(_context.TableAreas, "TableAreaId", "TableArea", table.TableAreaId);
         return View(table);
     }
 
