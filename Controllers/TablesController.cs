@@ -84,7 +84,7 @@ public class TablesController : Controller
             return NotFound();
         }
 
-        ViewData["TableAreaId"] = new SelectList(_context.TableAreas, "TableAreaId","Area",table.TableAreaId);
+        ViewData["TableAreaId"] = new SelectList(_context.TableAreas, "TableAreaId", "Area", table.TableAreaId);
 
         return View(table);
     }
