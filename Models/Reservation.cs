@@ -17,7 +17,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
         public Sitting? Sitting { get; set; }
 
         [Required]
-        public required int SittingId { get; set; }   // <-- FIXED
+        public required int SittingId { get; set; } 
 
         [MaxLength(50)]
         [DisplayName("First Name")]
