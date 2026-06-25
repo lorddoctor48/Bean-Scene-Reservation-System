@@ -74,71 +74,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -224,13 +159,88 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation", b =>
                 {
-                    b.Property<int>("ReservationID")
+                    b.Property<int>("ReservationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationId"));
 
                     b.Property<string>("Email")
                         .HasMaxLength(100)
@@ -245,9 +255,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("MemberID")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -272,7 +279,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("SourceTitleId")
-                        .HasMaxLength(20)
                         .HasColumnType("int");
 
                     b.Property<string>("SpecialRequests")
@@ -281,13 +287,19 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
-                    b.HasKey("ReservationID");
+                    b.Property<string>("UserId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ReservationId");
 
                     b.HasIndex("SittingId");
 
                     b.HasIndex("SourceTitleId");
 
                     b.HasIndex("StatusId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
                 });
@@ -311,6 +323,28 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .IsUnique();
 
                     b.ToTable("ReservationsSource");
+
+                    b.HasData(
+                        new
+                        {
+                            SourceTitleId = 1,
+                            SourceTitle = "Phone"
+                        },
+                        new
+                        {
+                            SourceTitleId = 2,
+                            SourceTitle = "Email"
+                        },
+                        new
+                        {
+                            SourceTitleId = 3,
+                            SourceTitle = "Online"
+                        },
+                        new
+                        {
+                            SourceTitleId = 4,
+                            SourceTitle = "In-person"
+                        });
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Sitting", b =>
@@ -378,6 +412,23 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .IsUnique();
 
                     b.ToTable("SittingTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            SittingTypeId = 1,
+                            SittingTitle = "Breakfast"
+                        },
+                        new
+                        {
+                            SittingTypeId = 2,
+                            SittingTitle = "Lunch"
+                        },
+                        new
+                        {
+                            SittingTypeId = 3,
+                            SittingTitle = "Dinner"
+                        });
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Status", b =>
@@ -399,6 +450,33 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .IsUnique();
 
                     b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            StatusId = 1,
+                            StatusTitle = "Pending"
+                        },
+                        new
+                        {
+                            StatusId = 2,
+                            StatusTitle = "Confirmed"
+                        },
+                        new
+                        {
+                            StatusId = 3,
+                            StatusTitle = "Cancelled"
+                        },
+                        new
+                        {
+                            StatusId = 4,
+                            StatusTitle = "Seated"
+                        },
+                        new
+                        {
+                            StatusId = 5,
+                            StatusTitle = "Completed"
+                        });
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Table", b =>
@@ -417,6 +495,158 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .IsUnique();
 
                     b.ToTable("Table");
+
+                    b.HasData(
+                        new
+                        {
+                            TableNo = "M1",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M2",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M3",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M4",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M5",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M6",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M7",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M8",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M9",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M10",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "O1",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O2",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O3",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O4",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O5",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O6",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O7",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O8",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O9",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O10",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "B1",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B2",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B3",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B4",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B5",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B6",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B7",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B8",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B9",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B10",
+                            TableAreaId = 3
+                        });
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", b =>
@@ -438,6 +668,23 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .IsUnique();
 
                     b.ToTable("TableAreas");
+
+                    b.HasData(
+                        new
+                        {
+                            TableAreaId = 1,
+                            Area = "Main"
+                        },
+                        new
+                        {
+                            TableAreaId = 2,
+                            Area = "Outside"
+                        },
+                        new
+                        {
+                            TableAreaId = 3,
+                            Area = "Balcony"
+                        });
                 });
 
             modelBuilder.Entity("ReservationTable", b =>
@@ -466,7 +713,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -475,7 +722,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -490,7 +737,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -499,7 +746,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -526,11 +773,18 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("ReservationSource");
 
                     b.Navigation("Sitting");
 
                     b.Navigation("Status");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Sitting", b =>

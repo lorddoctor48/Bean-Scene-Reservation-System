@@ -1,11 +1,13 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Project_Assessment_Bean_Scene_Registration_Application.Models;
-using Project_Assessment_Bean_Scene_Registration_Application.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Project_Assessment_Bean_Scene_Registration_Application.Data;
+using Project_Assessment_Bean_Scene_Registration_Application.Models;
 
+[Authorize(Roles = "Manager")]
 public class TablesController : Controller
 {
     private readonly ApplicationDbContext _context;

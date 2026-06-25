@@ -4,30 +4,37 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class=" Bean-Scene-h1">Create</h1>
 
-<h4>Reservation</h4>
+<h2 class=" Bean-Scene-h2">Reservation</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="MemberID" class="control-label"></label>
                 <input asp-for="MemberID" class="form-control" />
                 <span asp-validation-for="MemberID" class="text-danger"></span>
-            </div>
+            </div> *@
 
-            <div class="form-group">
-                <label asp-for="Sitting" class="control-label"></label>
-                <input asp-for="Sitting" class="form-control" />
-                <span asp-validation-for="Sitting" class="text-danger"></span>
-            </div>
+            @* Display user dropdown ONLY for staff/manager *@
+            @if (User.IsInRole("Staff") || User.IsInRole("Manager"))
+            {
+                <div class="form-group">
+                    <label asp-for="UserId" class="control-label"></label>
+                    <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId">
+                        <option value="">-- Select a user --</option>
+                    </select>
+                </div>
+            }
 
             <div class="form-group">
                 <label asp-for="SittingId" class="control-label"></label>
-                <input asp-for="SittingId" class="form-control" />
+                <select asp-for="SittingId" class="form-control" asp-items="ViewBag.SittingId">
+                    <option value="">-- Select a Sitting --</option>
+                </select>
                 <span asp-validation-for="SittingId" class="text-danger"></span>
             </div>
 
@@ -55,11 +62,11 @@
                 <span asp-validation-for="PhoneNo" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="ReservationDate" class="control-label"></label>
                 <input asp-for="ReservationDate" class="form-control" />
                 <span asp-validation-for="ReservationDate" class="text-danger"></span>
-            </div>
+            </div> *@
 
             <div class="form-group">
                 <label asp-for="ReservationStartTime" class="control-label"></label>
@@ -79,17 +86,12 @@
                 <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+          @*   <div class="form-group">
                 <label asp-for="SourceTitleId" class="control-label"></label>
-                <input asp-for="SourceTitleId" class="form-control" />
-                <span asp-validation-for="SourceTitleId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ReservationSource" class="control-label"></label>
-                <input asp-for="ReservationSource" class="form-control" />
-                <span asp-validation-for="ReservationSource" class="text-danger"></span>
-            </div>
+                <select asp-for="SourceTitleId" class="form-control" asp-items="ViewBag.SourceTitleId">
+                    <option value="">-- Select a source --</option>
+                </select>
+            </div> *@
 
             <div class="form-group">
                 <label asp-for="SpecialRequests" class="control-label"></label>
@@ -103,30 +105,26 @@
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="StatusId" class="control-label"></label>
-                <input asp-for="StatusId" class="form-control" />
-                <span asp-validation-for="StatusId" class="text-danger"></span>
-            </div>
+                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId">
+                    <option value="">-- Select a status --</option>
+                </select>
+            </div> *@
 
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Table" class="control-label"></label>
-                <input asp-for="Table" class="form-control" />
-                <span asp-validation-for="Table" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            @* <div class="form-group">
+                <label asp-for="Tables" class="control-label"></label>
+                <input asp-for="Tables" class="form-control" />
+                <span asp-validation-for="Tables" class="text-danger"></span>
+            </div> *@
+            <div class="row mt-4">
+                <div class="form-group col">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+                <div class="form-group col">
+                    <a asp-action="Index" class=" btn btn-secondary">Back to List</a>
+                </div>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
