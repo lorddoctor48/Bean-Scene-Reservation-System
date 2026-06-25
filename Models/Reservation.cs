@@ -9,25 +9,28 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
     {
         [Key]
         [Required]
-        public required int ReservationID { get; set; }
+        public int ReservationId { get; set; }
 
-        public string? MemberID { get; set; }
-
-        [DeleteBehavior(DeleteBehavior.Restrict)]
-        public Sitting? Sitting { get; set; }
+        [StringLength(450)]
+        [DisplayName("User")]
+        public string? UserId { get; set; }
 
         [Required]
-        public required int SittingId { get; set; } 
+        public int SittingId { get; set; }
 
         [MaxLength(50)]
         [DisplayName("First Name")]
         [Required]
-        public required string FirstName { get; set; }
+        public string FirstName { get; set; } = string.Empty;
 
         [MaxLength(50)]
         [DisplayName("Last Name")]
         [Required]
-        public required string LastName { get; set; }
+        public string LastName { get; set; } = string.Empty;
+
+        [NotMapped]
+        [DisplayName("Full name")]
+        public string FullName { get => $"{FirstName?.Trim()} {LastName?.Trim()}"; }
 
         [MaxLength(100)]
         public string? Email { get; set; }
@@ -40,51 +43,33 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
         [DisplayFormat(DataFormatString = "{0:d MMM YYYY}")]
         [DisplayName("Reservation Date")]
         [Required]
-        public required DateOnly ReservationDate { get; set; }
+        public DateOnly ReservationDate { get; set; }
 
-        [DisplayName("Reservation Start Time")]
+        [DisplayName("Start Time")]
         [DisplayFormat(DataFormatString = "{0:hh:mm tt}")]
         [DataType(DataType.Time)]
         [Required]
-        public required TimeOnly ReservationStartTime { get; set; }
+        public TimeOnly ReservationStartTime { get; set; }
 
-        //[DisplayName("Duration (Min)")]
-        //[Required]
-        //public required int DurationMin { get; set; }
-
-        ////public TimeOnly ReservationEndTime
-        ////{
-
-
-        ////    get {return ReservationStartTime - DurationMin}
-        ////}
-
-        ////public  TimeOnly ReservationEndTime =>  ReservationStartTime - DurationMin;
-
-        [DisplayName("Reservation End Time")]
+        [DisplayName("End Time")]
         [DisplayFormat(DataFormatString = "{0:hh:mm tt}")]
         [DataType(DataType.Time)]
         [Required]
-        public required TimeOnly ReservationEndTime { get; set; }
-
-        //[DisplayName]
-        //[ForeignKey(nameof(Table))]
-        //public string? TableNo { get; set; }
-
-        //[DeleteBehavior(DeleteBehavior.Restrict)]
-        //public Table? Table { get; set; }
+        public TimeOnly ReservationEndTime { get; set; }
 
         [Required]
-        public required int NumberOfPeople { get; set; }
+        [DisplayName("People No.")]
+        public int NumberOfPeople { get; set; }
 
         [DisplayName("Source")]
-        [StringLength(20, MinimumLength = 3)]
+        //[StringLength(20, MinimumLength = 3)]
         [Required]
-        public required int SourceTitleId { get; set; }
+        public int SourceTitleId { get; set; }
 
         [DeleteBehavior(DeleteBehavior.Restrict)]
 
         [ForeignKey(nameof(SourceTitleId))]
+        [DisplayName("Source")]
         public ReservationSource? ReservationSource { get; set; }
                                                     
 
@@ -95,10 +80,32 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
 
         [DisplayName("Status")]
         [Required]
-        public required int StatusId { get; set; }   
+        public int StatusId { get; set; }   
 
         [DeleteBehavior(DeleteBehavior.Restrict)]
         public Status? Status { get; set; }
+
+
+        [DeleteBehavior(DeleteBehavior.Restrict)]
+        [ForeignKey(nameof(SittingId))]
+        public Sitting? Sitting { get; set; }
+
+        //[DeleteBehavior(DeleteBehavior.Restrict)]
+        //[DisplayName("Start Time")]
+        ////[ForeignKey(nameof(SittingId))]
+        //public Sitting? SittingStartTime { get; set; }
+
+        //[DeleteBehavior(DeleteBehavior.Restrict)]
+        //[DisplayName("End Time")]
+        ////[ForeignKey(nameof(SittingId))]
+        //public Sitting? SittingEndTime { get; set; }
+
+        //[DisplayName("Sitting Type")]
+        //[DeleteBehavior(DeleteBehavior.Restrict)]
+        //public SittingType? SittingType { get; set; }
+
+        [DeleteBehavior(DeleteBehavior.SetNull)]
+        public ApplicationUser? User { get; set; }
 
         public ICollection<Table> Tables { get; set; } = new List<Table>();
 
