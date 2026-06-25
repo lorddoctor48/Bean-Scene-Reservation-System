@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Project_Assessment_Bean_Scene_Registration_Application.Models
@@ -62,28 +63,15 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
         public string? ClosureReason { get; set; }
 
 
+        [NotMapped]
+        [DisplayName("Description")]
+        public string Description { get => $"{this.SittingDate} - {this.SittingType?.SittingTitle ?? "?"} ({this.SittingStartTime} - {this.SittingEndTime})"; }
+
 
         [DeleteBehavior(DeleteBehavior.Restrict)]
         [DisplayName("Sitting Type")]
         public SittingType? SittingType { get; set; }
 
-        //[DeleteBehavior(DeleteBehavior.Restrict)]
-        //[DisplayName("Start Time")]
-        //public Sitting? StartTime { get; set; }
 
-
-        //[DeleteBehavior(DeleteBehavior.Restrict)]
-        //[DisplayName("End Time")]
-        //public Sitting? EndTime { get; set; }
-
-        //public Sitting()
-        //{
-        //    Date = DateOnly.FromDateTime(DateTime.Today);
-        //    SittingTypeId = 1;                     // Morning (hard-coded ID)
-        //    SittingTypeId = 0;                     // int default to 0, equivalent of "null"
-        //    StartTime = new TimeOnly(9, 00);    // 9am
-        //    EndTime = new TimeOnly(12, 00);     // 12pm
-        //    IsClosed = true;
-        //}
     }
 }
