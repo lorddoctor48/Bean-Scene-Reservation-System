@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    bool isMember = User.IsInRole("Member");
+    bool isStaff = User.IsInRole("Staff");
+    bool isManager = User.IsInRole("Manager");
+    bool isLoggedIn = SignInManager.IsSignedIn(User);
+}
+
+<ul class="navbar-nav flex-grow-1">
+
+    @* Common links for ALL users *@
+
+    @* TODO: Add create reservation links *@
+
+    @* Custom nav for anonymous users (not logged in) *@
+    @if (!isLoggedIn)
+    {
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Create">Make reservation</a>
+    </li>
+    }
+
+    @* Custom nav for member/user/customer *@
+    @if (isMember)
+    {
+        <partial name="_MainNavMemberPartial" />
+    }
+
+    @* Custom nav for ALL staff *@
+    @* @if (isStaff)
+    {
+        <partial name="_MainNavStaffPartial" />
+    } *@
+
+    @* Custom nav for regular staff (not managers) *@
+    @if (isStaff && !isManager)
+    {
+        <partial name="_MainNavStaffPartial" />
+    }
+
+    @* Custom nav for managers *@
+    @if (isManager)
+    {
+        <partial name="_MainNavManagerPartial" />
+    }
+
+</ul>

@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project_Assessment_Bean_Scene_Registration_Application.Data;
 using Project_Assessment_Bean_Scene_Registration_Application.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class SittingsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,6 +22,8 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         }
 
         // GET: Sittings
+        // Allow access to ANYONE (even non-logged-in users)
+        //[AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Sittings.Include(s => s.SittingType);
@@ -57,6 +61,8 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
+
         public async Task<IActionResult> Create([Bind("SittingId,SittingTypeId,SittingDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting)
         {
             if (ModelState.IsValid)
@@ -71,7 +77,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         }
 
 
-        // GET: Sittings/Create
+        // GET: Sittings/BulkCreateOnRange
         public IActionResult BulkCreateOnRange()
         {
             ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle");
@@ -83,6 +89,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
         public async Task<IActionResult> BulkCreateOnRange([Bind("SittingId,SittingTypeId,SittingStartDate,SittingEndDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting) //A custom method for creating multiple sittings based on the range between start and end date.
         {
             if (!ModelState.IsValid) //checking whether the inputted fields 
@@ -136,6 +143,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
         public async Task<IActionResult> Edit(int id, [Bind("SittingId,SittingTypeId,SittingDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting)
         {
             if (id != sitting.SittingId)
@@ -168,6 +176,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         }
 
         // GET: Sittings/Delete/5
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -189,6 +198,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         // POST: Sittings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var sitting = await _context.Sittings.FindAsync(id);

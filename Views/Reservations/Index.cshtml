@@ -4,38 +4,54 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="Bean-Scene-h1">Reservations</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="row fs-6">
+    @* <div class="col-md-2">
+        <h1>Sitting Types</h1>
+    </div> *@
+    <div class="col-md-2">
+        <p>
+            <a asp-controller="Home" asp-action="ManagerDashboard" class="btn btn-secondary">Go Back</a>
+        </p>
+
+    </div>
+    <div class="col-md-3">
+        <p>
+            <a asp-action="Create" class="btn btn-primary btn-lg">Add Reservation</a>
+        </p>
+    </div>
+</div>
+
+<hr />
+
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.MemberID)
-            </th>
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.Sitting)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.SittingId)
-            </th>
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PhoneNo)
-            </th>
-            <th>
+            </th> *@
+            @* <th>
                 @Html.DisplayNameFor(model => model.ReservationDate)
-            </th>
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.ReservationStartTime)
             </th>
@@ -45,93 +61,65 @@
             <th>
                 @Html.DisplayNameFor(model => model.NumberOfPeople)
             </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.ReservationSource.SourceTitle)
+            </th> *@
             <th>
-                @Html.DisplayNameFor(model => model.SourceTitleId)
+                @Html.DisplayNameFor(model => model.Status.StatusTitle)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReservationSource)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SpecialRequests)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Notes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StatusId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Table)
+                @Html.DisplayNameFor(model => model.Tables)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.MemberID)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Sitting)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.SittingId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.PhoneNo)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.ReservationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.ReservationStartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.ReservationEndTime)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.NumberOfPeople)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.SourceTitleId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.ReservationSource)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.SpecialRequests)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.StatusId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Table)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ReservationID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ReservationID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ReservationID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Sitting.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.ReservationStartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.ReservationEndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.NumberOfPeople)
+                </td>
+                @* <td>
+                    @Html.DisplayFor(model => item.ReservationSource.SourceTitle)
+                </td> *@
+
+                <td>
+                    @Html.DisplayFor(model => item.Status.StatusTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Tables)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ReservationId" class="btn btn-secondary btn-sm" aria-label="Edit" title="Edit">
+                        <i class="bi bi-pencil-fill me-1"></i>
+                        Edit
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.ReservationId" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-file-text"></i>
+                        Details
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.ReservationId" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash-fill"></i>
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

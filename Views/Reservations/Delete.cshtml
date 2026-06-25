@@ -10,14 +10,14 @@
 <div>
     <h4>Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation</h4>
     <hr />
-    <dl class="row">
+    @* <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.MemberID)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.MemberID)
         </dd>
-    </dl>
+    </dl> *@
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Sitting)
@@ -66,14 +66,14 @@
             @Html.DisplayFor(model => model.PhoneNo)
         </dd>
     </dl>
-    <dl class="row">
+    @* <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ReservationDate)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ReservationDate)
         </dd>
-    </dl>
+    </dl> *@
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ReservationStartTime)
@@ -148,14 +148,14 @@
     </dl>
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Table)
+            @Html.DisplayNameFor(model => model.Tables)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Table)
+            @Html.DisplayFor(model => model.Tables)
         </dd>
     </dl>
     <form asp-action="Delete">
-        <input type="hidden" asp-for="ReservationID" />
+        <input type="hidden" asp-for="ReservationId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
