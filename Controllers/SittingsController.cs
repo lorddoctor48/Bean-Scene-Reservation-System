@@ -26,8 +26,12 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         //[AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Sittings.Include(s => s.SittingType);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = _context.Sittings.Include(s => s.SittingType)
+                    .OrderBy(s => s.SittingDate)
+                    .ThenBy(s => s.SittingStartTime)
+                    .ThenBy(s => s.SittingEndTime)
+                    .ToListAsync();
+            return View(await applicationDbContext);
         }
 
         // GET: Sittings/Details/5
@@ -194,6 +198,8 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
 
             return View(sitting);
         }
+
+
 
         // POST: Sittings/Delete/5
         [HttpPost, ActionName("Delete")]
