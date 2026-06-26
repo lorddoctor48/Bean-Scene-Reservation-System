@@ -30,7 +30,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         {
             var applicationDbContext = _context.Reservations
             .Include(r => r.Sitting)
-            .ThenInclude(s => s.SittingType).Include(r => r.ReservationSource).Include(r => r.Status).Include(r=> r.Tables).Include(r => r.User);  // Include slot type AFTER slot included
+            .ThenInclude(s => s.SittingType).Include(r => r.ReservationSource).Include(r => r.Status).Include(r => r.Tables).Include(r => r.User).OrderBy(r => r.Sitting.SittingDate);  // Include slot type AFTER slot included
 
             // Check if user is Member - ONLY display their own reservations
             if (User.IsInRole("Member"))
@@ -46,6 +46,97 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
             //return View(await _context.Reservations.ToListAsync());
             return View(await applicationDbContext.OrderByDescending(r => r.Sitting.SittingDate).ToListAsync());
 
+        }
+
+        // GET: Reservations/Pending14Days
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> Pending14DaysReport()
+        {
+            var applicationDbContext = _context.Reservations
+                .Include(r => r.Sitting)
+                .ThenInclude(s => s.SittingType)
+                .Include(r => r.User)
+                .Include(r => r.Status)
+                    .Where(r =>
+                    r.StatusId == 1 &&
+                    r.Sitting.SittingDate <= DateOnly.FromDateTime(DateTime.Today.AddDays(14)) &&
+                    r.Sitting.SittingDate >= DateOnly.FromDateTime(DateTime.Today)
+                    )
+                    .OrderBy(r => r.Sitting.SittingDate)
+                    .ThenBy(r => r.ReservationStartTime);
+
+            // Load Pending14Days "report" view
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+
+        // GET: Reservations/Sources4Days
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> Source30DaysReport()
+        {
+            var applicationDbContext = _context.Reservations
+                .Include(r => r.Sitting)
+                .ThenInclude(s => s.SittingType)
+                //.Include(r => r.User)
+                .Include(r => r.ReservationSource)
+                    .Where(r =>
+                    r.Sitting.SittingDate >= DateOnly.FromDateTime(DateTime.Today.AddDays(-30)) &&
+                    r.Sitting.SittingDate <= DateOnly.FromDateTime(DateTime.Today)
+                    )
+                    .OrderBy(r => r.Sitting.SittingDate)
+                    .ThenBy(r => r.ReservationStartTime);
+
+            // Load Pending14Days "report" view
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+
+        // GET: Reservations/Cancelled30Days
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> Cancellations30DaysReport()
+        {
+            var applicationDbContext = _context.Reservations
+                .Include(r => r.Sitting)
+                .ThenInclude(s => s.SittingType)
+                .Include(r => r.User)
+                .Include(r => r.Status)
+                .Include(r => r.Tables)
+                    .Where(r =>
+                    r.StatusId == 3 && // Cannelled status
+                    //r.Sitting.SittingDate >= DateOnly.FromDateTime(DateTime.Today.AddDays(-30)) &&
+                    //r.Sitting.SittingDate <= DateOnly.FromDateTime(DateTime.Today)
+                    r.Sitting.SittingDate >= DateOnly.FromDateTime(DateTime.Today.AddDays(-30)) &&
+                    r.Sitting.SittingDate <= DateOnly.FromDateTime(DateTime.Today)
+                    )
+                    .OrderBy(r => r.Sitting.SittingDate)
+                    .ThenBy(r => r.ReservationStartTime);
+
+            // Load Pending14Days "report" view
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+
+        // GET: Reservations/Tables14Days
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> Tables30DaysReport()
+        {
+            var applicationDbContext = _context.Reservations
+                   //.Include(r => r.ReservationId)
+                   .Include(r => r.Sitting)
+                       .ThenInclude(s => s.SittingType).Include(r => r.Status)
+                   //.Include(r => r.User)
+                   //.Include(r => r.ReservationSource)
+                   .Include(r => r.Tables)
+                   .Where(r => r
+                   .Tables.Any() && // Only include reservations that have tables assigned
+                    r.Sitting.SittingDate <= DateOnly.FromDateTime(DateTime.Today) &&
+                    r.Sitting.SittingDate >= DateOnly.FromDateTime(DateTime.Today.AddDays(-30))
+                    )
+                    .OrderBy(r => r.Sitting.SittingDate)
+                    .ThenBy(r => r.ReservationStartTime);
+
+            // Load Pending14Days "report" view
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: RESERVATIONS/Details/5
@@ -94,8 +185,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
             ViewData["SittingId"] = new SelectList(_context.Sittings, "SittingId", "Description");
             ViewData["SourceTitleId"] = new SelectList(_context.ReservationsSource, "SourceTitleId", "SourceTitle");
             ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusTitle");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FullName");
 
-            return View();
+            return View(reservation);
         }
 
         // POST: RESERVATIONS/Create
@@ -104,7 +196,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public async Task<IActionResult> Create([Bind("ReservationId,UserId,SittingId,FirstName,LastName,Email,PhoneNo,ReservationDate,ReservationStartTime,ReservationEndTime,NumberOfPeople,SourceTitleId,SpecialRequests,Notes,StatusId")]Reservation reservation)
+        public async Task<IActionResult> Create([Bind("ReservationId,UserId,SittingId,FirstName,LastName,Email,PhoneNo,ReservationDate,ReservationStartTime,ReservationEndTime,NumberOfPeople,SourceTitleId,SpecialRequests,Notes,StatusId")] Reservation reservation)
         {
             reservation.StatusId = 1; // Set default status to "Pending" (assuming StatusId 1 corresponds to "Pending")
 
@@ -113,6 +205,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
 
             if (ModelState.IsValid)
             {
+                //reservation.ReservationDate = DateOnly.FromDateTime(DateTime.Today);
+                //reservation.ReservationDate = reservation.Sitting.SittingDate;
+
                 // Check if user is Member - assign UserId to Reservation
                 if (User != null && User.IsInRole("Member"))
                 {
@@ -155,7 +250,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
 
 
             var reservation = await _context.Reservations
-                .Include(r => r.Status)
+                .Include(r => r.Status).OrderBy(r => r.StatusId)
                 .Include(r => r.ReservationSource)
                 .Include(r => r.Sitting)
                 .Include(r => r.Tables)
