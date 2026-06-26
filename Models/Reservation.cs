@@ -83,20 +83,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
         [ForeignKey(nameof(SittingId))]
         public Sitting? Sitting { get; set; }
 
-        //[DeleteBehavior(DeleteBehavior.Restrict)]
-        //[DisplayName("Start Time")]
-        ////[ForeignKey(nameof(SittingId))]
-        //public Sitting? SittingStartTime { get; set; }
-
-        //[DeleteBehavior(DeleteBehavior.Restrict)]
-        //[DisplayName("End Time")]
-        ////[ForeignKey(nameof(SittingId))]
-        //public Sitting? SittingEndTime { get; set; }
-
-        //[DisplayName("Sitting Type")]
-        //[DeleteBehavior(DeleteBehavior.Restrict)]
-        //public SittingType? SittingType { get; set; }
-
         [DeleteBehavior(DeleteBehavior.SetNull)]
         public ApplicationUser? User { get; set; }
 
