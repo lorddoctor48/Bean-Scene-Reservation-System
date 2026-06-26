@@ -30,7 +30,12 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         {
             var applicationDbContext = _context.Reservations
             .Include(r => r.Sitting)
-            .ThenInclude(s => s.SittingType).Include(r => r.ReservationSource).Include(r => r.Status).Include(r => r.Tables).Include(r => r.User).OrderBy(r => r.Sitting.SittingDate);  // Include slot type AFTER slot included
+            .ThenInclude(s => s.SittingType)
+            .Include(r => r.ReservationSource)
+            .Include(r => r.Status)
+            .Include(r => r.Tables)
+            .Include(r => r.User)
+            .OrderBy(r => r.Sitting.SittingDate).ThenBy(r => r.ReservationStartTime);
 
             // Check if user is Member - ONLY display their own reservations
             if (User.IsInRole("Member"))
@@ -44,7 +49,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
             }
 
             //return View(await _context.Reservations.ToListAsync());
-            return View(await applicationDbContext.OrderByDescending(r => r.Sitting.SittingDate).ToListAsync());
+            return View(await applicationDbContext.OrderBy(r => r.Sitting.SittingDate).ToListAsync());
 
         }
 
