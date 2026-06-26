@@ -255,7 +255,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
 
 
             var reservation = await _context.Reservations
-                .Include(r => r.Status).OrderBy(r => r.StatusId)
+                .Include(r => r.Status)
                 .Include(r => r.ReservationSource)
                 .Include(r => r.Sitting)
                 .Include(r => r.Tables)
@@ -318,12 +318,133 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
             //reservation.Tables = existingReservation?.Tables ?? new List<Table>(); PopulateTableLists(reservation);
 
 
-            reservation.Tables = await _context.Table.Where(r => r.Reservations.Contains(reservation)).ToListAsync();
+            //reservation.Tables = await _context.Table.Where(r => r.Reservations.Contains(reservation)).ToListAsync();
 
 
             PopulateTableLists(reservation);
 
             return View(reservation);
+        }
+
+        // POST: Reservations/AssignRoom
+        [HttpPost]
+        //[Route("/Reservations/AssignTable")]
+        public async Task<IActionResult> AssignTable(int reservationId, string tableNo)
+        {
+            // Look up reservation with rooms
+            var reservation = await _context.Reservations
+                .Include(r => r.Tables)
+                .FirstOrDefaultAsync(r => r.ReservationId == reservationId);
+
+            // Check if reservation not found
+            if (reservation == null)
+            {
+                return NotFound("Reservation not found.");
+
+            }
+
+            // Look up table
+            var table = await _context.Table.FindAsync(tableNo);
+
+            // Check if table not found
+            if (table == null)
+            {
+                return NotFound("Table not found.");
+            }
+
+            if (reservation.Tables.Count == 0)
+            {
+                return BadRequest("No tables assigned to this reservation.");
+            }
+
+            // Add room to reservation
+            reservation.Tables.Add(table);
+
+            // Update database
+            _context.Update(reservation);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Edit), new { id = reservationId });             //Redirect to edit view
+
+            //return Ok(); //Since this is an AJAX call, we can return a simple OK response instead of redirecting to the edit view.
+        }
+
+        // POST: Reservations/UnassignTable
+        [HttpPost]
+        [Authorize(Roles = "Staff, Manager")]
+        //[Route("/Reservations/UnassignTable")]
+        public async Task<IActionResult> UnassignTable(int reservationId, string tableNo)
+        {
+            // Look up reservation with rooms
+            var reservation = await _context.Reservations
+                .Include(r => r.Tables)
+                .FirstOrDefaultAsync(r => r.ReservationId == reservationId);
+
+            // Check if reservation not found
+            if (reservation == null)
+            {
+                return NotFound("Reservation not found.");
+            }
+
+            // Look up table
+            var table = await _context.Table.FindAsync(tableNo);
+
+            // Check if table not found
+            if (table == null)
+            {
+                return NotFound("Table not found.");
+            }
+
+            if (reservation.Tables.Count == 0)
+            {
+                return BadRequest("No tables assigned to this reservation.");
+            }
+
+            // Remove room from reservation
+            reservation.Tables.Remove(table);
+
+            // Update database
+            _context.Update(reservation);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Edit), new { id = reservationId });             // Redirect to edit view
+
+
+        }
+
+        private void PopulateTableLists(Reservation reservation)
+        {
+            // Get assigned rooms
+            var assignedTables = reservation.Tables.Select(r => r.TableNo).ToList();
+
+            // Find ALL room codes that have been assigned for THIS reservation's slot
+            var unavailableTables = _context.Reservations
+            .Include(r => r.Tables)
+            .Where(res =>
+
+            // Check if within same slot
+            res.ReservationId != reservation.ReservationId &&
+                    res.SittingId == reservation.SittingId &&
+
+
+            // Check if times overlap (NOTE the ! NOT operator)
+            !(res.ReservationEndTime <= reservation.ReservationStartTime || res.ReservationStartTime >= reservation.ReservationEndTime))
+                // Flatten the reservation with rooms collection into a single list/collection (only the room code)
+                // Param 1: Collection selector (find Rooms within Reservation)
+                // Param 2: Result selector (project/select the Code from each Room)
+                .SelectMany(res => res.Tables)
+                .Select(t => t.TableNo)
+                .ToList();
+
+            // Find available/unassigned rooms
+            var unassignedTables = _context.Table
+                .Where(r => !unavailableTables.Contains(r.TableNo))
+                .Select(r => r.TableNo)
+                .ToList();
+
+            // Pass to ViewData
+            ViewData["AssignedTablesList"] = new SelectList(assignedTables);
+            ViewData["UnassignedTablesList"] = new SelectList(unassignedTables);
         }
 
         // GET: RESERVATIONS/Delete/5
@@ -359,115 +480,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: Reservations/AssignRoom
-        [HttpPost]
-        public async Task<IActionResult> AssignTable(int reservationId, string tableNo)
-        {
-            // Look up reservation with rooms
-            var reservation = await _context.Reservations
-                .Include(r => r.Tables)
-                .FirstOrDefaultAsync(r => r.ReservationId == reservationId);
-
-            // Check if reservation not found
-            if (reservation == null)
-            {
-                return NotFound("Reservation not found.");
-
-            }
-
-            // Look up room
-            var table = await _context.Table.FindAsync(tableNo);
-
-            // Check if room not found
-            if (table == null)
-            {
-                return NotFound("Room not found.");
-            }
-
-            // Add room to reservation
-            reservation.Tables.Add(table);
-
-            // Update database
-            _context.Update(reservation);
-            await _context.SaveChangesAsync();
-
-            // Redirect to edit view
-            return RedirectToAction(nameof(Edit), new { id = reservationId });
-        }
-
-        // POST: Reservations/UnassignTable
-        [HttpPost]
-        [Authorize(Roles = "Staff, Manager")]
-        public async Task<IActionResult> UnassignTable(int reservationId, string tableNo)
-        {
-            // Look up reservation with rooms
-            var reservation = await _context.Reservations
-                .Include(r => r.Tables)
-                .FirstOrDefaultAsync(r => r.ReservationId == reservationId);
-
-            // Check if reservation not found
-            if (reservation == null)
-            {
-                return NotFound("Reservation not found.");
-            }
-
-            // Look up room
-            var table = await _context.Table.FindAsync(tableNo);
-
-            // Check if room not found
-            if (table == null) return NotFound("Room not found.");
-
-            // Remove room from reservation
-            reservation.Tables.Remove(table);
-
-            // Update database
-            _context.Update(reservation);
-            await _context.SaveChangesAsync();
-
-            // Redirect to edit view
-            return RedirectToAction(nameof(Edit), new { id = reservationId });
-        }
-
-
         private bool ReservationExists(int? id)
         {
             return _context.Reservations.Any(e => e.ReservationId == id);
-        }
-
-
-        private void PopulateTableLists(Reservation reservation)
-        {
-            // Get assigned rooms
-            var assignedTables = reservation.Tables.Select(r => r.TableNo).ToList();
-
-            // Find ALL room codes that have been assigned for THIS reservation's slot
-            var unavailableTables = _context.Reservations
-            .Include(r => r.Tables)
-            .Where(res =>
-
-            // Check if within same slot
-            res.ReservationId != reservation.ReservationId &&
-                    res.SittingId == reservation.SittingId &&
-
-
-            // Check if times overlap (NOTE the ! NOT operator)
-            !(res.ReservationEndTime <= reservation.ReservationStartTime || res.ReservationStartTime >= reservation.ReservationEndTime))
-                // Flatten the reservation with rooms collection into a single list/collection (only the room code)
-                // Param 1: Collection selector (find Rooms within Reservation)
-                // Param 2: Result selector (project/select the Code from each Room)
-                .SelectMany(res => res.Tables)
-                .Select(t => t.TableNo)
-                .ToList();
-
-            // Find available/unassigned rooms
-            var unassignedTables = _context.Table
-                .Where(r => !unavailableTables.Contains(r.TableNo))
-                .Select(r => r.TableNo)
-                .ToList();
-
-            // Pass to ViewData
-            ViewData["AssignedTablesList"] = new SelectList(assignedTables);
-            ViewData["UnassignedTablesList"] = new SelectList(unassignedTables);
         }
     }
 }
