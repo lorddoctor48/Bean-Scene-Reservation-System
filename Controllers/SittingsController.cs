@@ -200,6 +200,24 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         }
 
 
+        // GET: RESERVATIONS/Delete/5
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
+        public async Task<IActionResult> DeleteAll()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteAll(bool confirmed)
+        {
+            confirmed = true; // Set confirmed to true to proceed with deletion
+
+            // Executes: DELETE FROM [Products] directly on the database
+            await _context.Sittings.ExecuteDeleteAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
 
         // POST: Sittings/Delete/5
         [HttpPost, ActionName("Delete")]
