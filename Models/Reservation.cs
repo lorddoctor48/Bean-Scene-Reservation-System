@@ -38,13 +38,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
         [DisplayName("Phone Number")]
         [MaxLength(15)]
         public string? PhoneNo { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d MMM YYYY}")]
-        [DisplayName("Reservation Date")]
-        [Required]
-        public DateOnly ReservationDate { get; set; }
-
         [DisplayName("Start Time")]
         [DisplayFormat(DataFormatString = "{0:hh:mm tt}")]
         [DataType(DataType.Time)]
