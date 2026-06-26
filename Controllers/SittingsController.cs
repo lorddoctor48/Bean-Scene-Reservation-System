@@ -209,6 +209,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
         public async Task<IActionResult> DeleteAll(bool confirmed)
         {
             confirmed = true; // Set confirmed to true to proceed with deletion
