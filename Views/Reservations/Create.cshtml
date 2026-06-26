@@ -86,13 +86,16 @@
                 <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
             </div>
 
-          @*   <div class="form-group">
-                <label asp-for="SourceTitleId" class="control-label"></label>
-                <select asp-for="SourceTitleId" class="form-control" asp-items="ViewBag.SourceTitleId">
-                    <option value="">-- Select a source --</option>
-                </select>
-            </div> *@
-
+            @if (User.IsInRole("Staff") || User.IsInRole("Manager"))
+            {
+                <div class="form-group">
+                    <label asp-for="SourceTitleId" class="control-label"></label>
+                    <select asp-for="SourceTitleId" class="form-control" asp-items="ViewBag.SourceTitleId">
+                        <option value="">-- Select a source --</option>
+                    </select>
+                    <span asp-validation-for="SourceTitleId" class="text-danger"></span>
+                </div>
+            }
             <div class="form-group">
                 <label asp-for="SpecialRequests" class="control-label"></label>
                 <input asp-for="SpecialRequests" class="form-control" />

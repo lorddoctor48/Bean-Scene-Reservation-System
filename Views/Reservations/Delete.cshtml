@@ -4,11 +4,10 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h1 class=" Bean-Scene-h1">Are you sure you want to delete the following reservation record?</h1>
+
 <div>
-    <h4>Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation</h4>
     <hr />
     @* <dl class="row">
         <dt class = "col-sm-2">
@@ -154,9 +153,18 @@
             @Html.DisplayFor(model => model.Tables)
         </dd>
     </dl>
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="ReservationId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    <div class="row mt-4 fs-6">
+        <div class="col-md-2">
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a></>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="SittingId" />
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

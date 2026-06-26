@@ -1,14 +1,22 @@
 @model IEnumerable<Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation>
 
 @{
-    ViewData["Title"] = "My reservations";
+    ViewData["Title"] = "My Past Reservations";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="row">
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">+ Make reservation</a>
-</p>
+    <div class="col-md-4">
+        <h1 class=" Bean-Scene-h1">@ViewData["Title"]</h1>
+
+    </div>
+
+    <div class="col-md-4">
+        <p>
+            <a asp-action="Create" class="btn btn-primary btn-lg">Make reservation</a>
+        </p>
+    </div>
+</div>
 
 <p>Here is a list of all of your previous reservations with us, showing the most recent first.</p>
 
@@ -17,7 +25,7 @@
         <thead>
             <tr>
                 <th>
-                    #
+                    Reservation No.
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Sitting)
@@ -25,11 +33,11 @@
                 <th>
                     Reservation Time
                 </th>
-                <th>
+                @* <th>
                     @Html.DisplayNameFor(model => model.SittingId)
                 </th>
                 <th>
-                    # People
+                    No. People
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Status)
@@ -37,12 +45,12 @@
                 <th>
                     @Html.DisplayNameFor(model => model.FullName)
                 </th>
-                <th>
+                @* <th>
                     @Html.DisplayNameFor(model => model.Email)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.PhoneNo)
-                </th>
+                </th> *@
                 @* <th>
                 @Html.DisplayNameFor(model => model.Note)
             </th>
@@ -60,33 +68,32 @@
                         @Html.DisplayFor(modelItem => item.ReservationId)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Sitting.SittingDate)
-                        -
-                        @Html.DisplayFor(modelItem => item.Sitting.SittingType)
+                        @Html.DisplayFor(model => item.Sitting.Description)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ReservationStartTime)
                         -
                         @Html.DisplayFor(modelItem => item.ReservationEndTime)
                     </td>
-                    <td>
+                    @* <td>
                         @Html.DisplayFor(modelItem => item.Sitting.SittingType)
-                    </td>
+                    </td> *@
                     <td>
                         @Html.DisplayFor(modelItem => item.NumberOfPeople)
                     </td>
-                    <td class="status-td status-@item.Status.ToString().ToLower()">
-                        @Html.DisplayFor(modelItem => item.Status)
+                    @* <td class="status-td status-@item.Status.ToString().ToLower()"> *@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status.StatusTitle)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FullName)
                     </td>
-                    <td>
+                    @* <td>
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
                     <td class="text-nowrap">
                         @Html.DisplayFor(modelItem => item.PhoneNo)
-                    </td>
+                    </td> *@
                     @* <td>
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
