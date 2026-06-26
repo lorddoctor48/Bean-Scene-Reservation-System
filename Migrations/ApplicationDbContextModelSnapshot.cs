@@ -266,9 +266,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<DateOnly>("ReservationDate")
-                        .HasColumnType("date");
-
                     b.Property<TimeOnly>("ReservationEndTime")
                         .HasColumnType("time");
 
