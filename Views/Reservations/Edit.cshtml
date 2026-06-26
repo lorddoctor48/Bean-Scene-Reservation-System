@@ -81,7 +81,7 @@
                 <label asp-for="SourceTitleId"></label>
                 <select asp-for="SourceTitleId" class="form-control" asp-items="ViewBag.SourceTitleId">
                     <option value="">-- Select a source --</option>
-                </select>                
+                </select>
                 <span asp-validation-for="SourceTitleId" class="text-danger"></span>
             </div>
 
@@ -99,8 +99,9 @@
             <div class="form-group">
                 <label asp-for="StatusId"></label>
                 <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId">
+                    @* <select asp-for="StatusId" class="form-control" asp-items="@(ViewBag["StatusId"] as SelectList)"> *@
                     <option value="">-- Select a source --</option>
-                </select>                  
+                </select>
                 <span asp-validation-for="StatusId" class="text-danger"></span>
             </div>
 
@@ -122,41 +123,46 @@
             </div>
         </form>
     </div>
+
     <div class="col-md-6">
+        <div class="col-md-6">
 
-        <h2 class=" Bean-Scene-h2">Tables assigned</h2>
+            <h2 class=" Bean-Scene-h2">Tables assigned</h2>
 
-        <div class="row">
-            <form asp-action="AssignTable" class="col d-flex flex-column gap-2">
-                <input type="hidden" name="reservationId" value="@Model.ReservationId" />
+            <div class="row">
+                <form asp-action="AssignTable" class="col d-flex flex-column gap-2">
+                    <input type="hidden" name="reservationId" value="@Model.ReservationId" />
 
-                <div class="form-group">
-                    <label for="AssignTableNo" class="control-label">Available Tables</label>
-                    <select id="AssignTableNo" name="tableNo" multiple class="form-control" asp-items="ViewBag.UnassignedTablesList"></select>
-                    @* <span asp-validation-for="SlotId" class="text-danger"></span> *@
-                </div>
+                    <div class="form-group">
+                        <label for="AssignTableNo" class="control-label">Available Tables</label>
+                        <select id="AssignTableNo" name="tableNo" multiple class="form-control" asp-items="ViewBag.UnassignedTablesList"></select>
+                        @* <span asp-validation-for="SlotId" class="text-danger"></span> *@
+                    </div>
 
-                <div class="form-group">
-                    <input type="submit" value="Assign" class="btn btn-primary" />
-                </div>
-            </form>
-            <form asp-action="UnassignRoom" class="col d-flex flex-column gap-2">
-                <input type="hidden" name="reservationId" value="@Model.ReservationId" />
+                    <div class="form-group">
+                        <input type="submit" value="Assign" class="btn btn-primary" />
+                    </div>
+                </form>
+                <form asp-action="UnassignTable" class="col d-flex flex-column gap-2">
+                    <input type="hidden" name="reservationId" value="@Model.ReservationId" />
 
-                <div class="form-group">
-                    <label for="unassignTableNo" class="control-label">Assigned Tables</label>
-                    <select id="unassignTableNo" name="tableNo" multiple class="form-control" asp-items="ViewBag.AssignedTablesList"></select>
-                    @* <span asp-validation-for="SlotId" class="text-danger"></span> *@
-                </div>
+                    <div class="form-group">
+                        <label for="unassignTableNo" class="control-label">Assigned Tables</label>
+                        <select id="unassignTableNo" name="tableNo" multiple class="form-control" asp-items="ViewBag.AssignedTablesList"></select>
+                        @* <span asp-validation-for="SlotId" class="text-danger"></span> *@
+                    </div>
 
-                <div class="form-group">
-                    <input type="submit" value="Unassign" class="btn btn-primary" />
-                </div>
-            </form>
+                    <div class="form-group">
+                        <input type="submit" value="Unassign" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
