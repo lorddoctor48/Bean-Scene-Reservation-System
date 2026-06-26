@@ -45,7 +45,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
                 var filteredReservations = applicationDbContext.Where(r => r.UserId == userId);
 
                 // Load view for the member reservation listing
-                return View("MemberIndex", await filteredReservations.OrderByDescending(r => r.ReservationId).ToListAsync());
+                return View("MemberIndex", await filteredReservations.OrderBy(r => r.ReservationId).ToListAsync());
             }
 
             //return View(await _context.Reservations.ToListAsync());
