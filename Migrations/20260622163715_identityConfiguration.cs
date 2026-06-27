@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 {
     /// <inheritdoc />
-    public partial class addmodels : Migration
+    public partial class identityConfiguration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,52 +48,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ReservationsSource",
-                columns: table => new
-                {
-                    sourceTitle = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReservationsSource", x => x.sourceTitle);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SittingTypes",
-                columns: table => new
-                {
-                    SittingTypeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SittingTitle = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SittingTypes", x => x.SittingTypeId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Status",
-                columns: table => new
-                {
-                    StatusTitle = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Status", x => x.StatusTitle);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TableAreas",
-                columns: table => new
-                {
-                    Area = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TableAreas", x => x.Area);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,102 +156,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Sittings",
-                columns: table => new
-                {
-                    SittingId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SittingTypeID = table.Column<int>(type: "int", maxLength: 20, nullable: false),
-                    SittingStartDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    SittingEndDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    SittingStartTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    SittingEndTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    SittingCapacity = table.Column<int>(type: "int", nullable: false),
-                    IsClosed = table.Column<bool>(type: "bit", nullable: false),
-                    ClosureDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    ClosureReason = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sittings", x => x.SittingId);
-                    table.ForeignKey(
-                        name: "FK_Sittings_SittingTypes_SittingTypeID",
-                        column: x => x.SittingTypeID,
-                        principalTable: "SittingTypes",
-                        principalColumn: "SittingTypeId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Table",
-                columns: table => new
-                {
-                    TableNo = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Area1 = table.Column<string>(type: "nvarchar(20)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Table", x => x.TableNo);
-                    table.ForeignKey(
-                        name: "FK_Table_TableAreas_Area1",
-                        column: x => x.Area1,
-                        principalTable: "TableAreas",
-                        principalColumn: "Area",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reservations",
-                columns: table => new
-                {
-                    ReservationID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MemberID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SittingId = table.Column<int>(type: "int", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    PhoneNo = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    ReservationDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    ReservationStartTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    DurationMin = table.Column<int>(type: "int", nullable: false),
-                    TableNo = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    NumberOfPeople = table.Column<int>(type: "int", nullable: false),
-                    ReservationSourcesourceTitle = table.Column<string>(type: "nvarchar(20)", nullable: true),
-                    SpecialRequests = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StatusTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StatusTitle1 = table.Column<string>(type: "nvarchar(50)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reservations", x => x.ReservationID);
-                    table.ForeignKey(
-                        name: "FK_Reservations_ReservationsSource_ReservationSourcesourceTitle",
-                        column: x => x.ReservationSourcesourceTitle,
-                        principalTable: "ReservationsSource",
-                        principalColumn: "sourceTitle");
-                    table.ForeignKey(
-                        name: "FK_Reservations_Sittings_SittingId",
-                        column: x => x.SittingId,
-                        principalTable: "Sittings",
-                        principalColumn: "SittingId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Reservations_Status_StatusTitle1",
-                        column: x => x.StatusTitle1,
-                        principalTable: "Status",
-                        principalColumn: "StatusTitle",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Reservations_Table_TableNo",
-                        column: x => x.TableNo,
-                        principalTable: "Table",
-                        principalColumn: "TableNo",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -336,42 +194,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reservations_ReservationSourcesourceTitle",
-                table: "Reservations",
-                column: "ReservationSourcesourceTitle");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reservations_SittingId",
-                table: "Reservations",
-                column: "SittingId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reservations_StatusTitle1",
-                table: "Reservations",
-                column: "StatusTitle1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reservations_TableNo",
-                table: "Reservations",
-                column: "TableNo");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sittings_SittingTypeID",
-                table: "Sittings",
-                column: "SittingTypeID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SittingTypes_SittingTitle",
-                table: "SittingTypes",
-                column: "SittingTitle",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Table_Area1",
-                table: "Table",
-                column: "Area1");
         }
 
         /// <inheritdoc />
@@ -393,31 +215,10 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Reservations");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "ReservationsSource");
-
-            migrationBuilder.DropTable(
-                name: "Sittings");
-
-            migrationBuilder.DropTable(
-                name: "Status");
-
-            migrationBuilder.DropTable(
-                name: "Table");
-
-            migrationBuilder.DropTable(
-                name: "SittingTypes");
-
-            migrationBuilder.DropTable(
-                name: "TableAreas");
         }
     }
 }

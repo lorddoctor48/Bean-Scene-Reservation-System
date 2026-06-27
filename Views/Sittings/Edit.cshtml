@@ -4,9 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class=" Bean-Scene-h1">Edit Sitting</h1>
 
-<h4>Sitting</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,11 +13,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="SittingId" />
             <div class="form-group">
-                <label asp-for="SittingTypeID" class="control-label"></label>
-                <select asp-for="SittingTypeID" class="form-control" asp-items="ViewBag.SittingTypeID"></select>
-                <span asp-validation-for="SittingTypeID" class="text-danger"></span>
+                <label asp-for="SittingTypeId" class="control-label"></label>
+                <select asp-for="SittingTypeId" class="form-control" asp-items="ViewBag.SittingTypeID"></select>
+                <span asp-validation-for="SittingTypeId" class="text-danger"></span>
             </div>
+
             <div class="form-group">
+                <label asp-for="SittingDate" class="control-label"></label>
+                <input asp-for="SittingDate" class="form-control" />
+                <span asp-validation-for="SittingDate" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
                 <label asp-for="SittingStartDate" class="control-label"></label>
                 <input asp-for="SittingStartDate" class="form-control" />
                 <span asp-validation-for="SittingStartDate" class="text-danger"></span>
@@ -27,7 +32,7 @@
                 <label asp-for="SittingEndDate" class="control-label"></label>
                 <input asp-for="SittingEndDate" class="form-control" />
                 <span asp-validation-for="SittingEndDate" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="SittingStartTime" class="control-label"></label>
                 <input asp-for="SittingStartTime" class="form-control" />
@@ -58,15 +63,19 @@
                 <input asp-for="ClosureReason" class="form-control" />
                 <span asp-validation-for="ClosureReason" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="row mt-4 justify-content-center">
+                <div class="col">
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+
+                <div class="col">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a></>
+                </div>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

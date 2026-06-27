@@ -1,0 +1,14 @@
+﻿@model Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation
+
+@{
+    ViewData["Title"] = "Reservation received";
+}
+
+<div class="text-center">
+
+    <h1 class="display-4">Reservation #@Model.ReservationId received</h1>
+
+    <p>Thank you for your reservation for @Model.Sitting?.SittingDate from @Model.ReservationStartTime-@Model.ReservationEndTime. We will email/call to confirm your reservation before that time.</p>
+
+    <p><a class="btn btn-primary" asp-action="Index" asp-controller="Home">Go home</a></p>
+</div>

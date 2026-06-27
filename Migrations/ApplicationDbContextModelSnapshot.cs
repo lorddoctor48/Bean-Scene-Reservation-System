@@ -17,7 +17,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.8")
+                .HasAnnotation("ProductVersion", "10.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -72,71 +72,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -224,16 +159,88 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation", b =>
                 {
-                    b.Property<int>("ReservationID")
+                    b.Property<int>("ReservationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationID"));
-
-                    b.Property<int>("DurationMin")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationId"));
 
                     b.Property<string>("Email")
                         .HasMaxLength(100)
@@ -249,9 +256,6 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("MemberID")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
@@ -262,11 +266,8 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<DateOnly>("ReservationDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("ReservationSourcesourceTitle")
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<TimeOnly>("ReservationEndTime")
+                        .HasColumnType("time");
 
                     b.Property<TimeOnly>("ReservationStartTime")
                         .HasColumnType("time");
@@ -274,44 +275,73 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<int>("SittingId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SourceTitleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SpecialRequests")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StatusTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("StatusTitle1")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TableNo")
+                    b.Property<string>("UserId")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("tableNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ReservationID");
-
-                    b.HasIndex("ReservationSourcesourceTitle");
+                    b.HasKey("ReservationId");
 
                     b.HasIndex("SittingId");
 
-                    b.HasIndex("StatusTitle1");
+                    b.HasIndex("SourceTitleId");
 
-                    b.HasIndex("TableNo");
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.ReservationSource", b =>
                 {
-                    b.Property<string>("sourceTitle")
+                    b.Property<int>("SourceTitleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SourceTitleId"));
+
+                    b.Property<string>("SourceTitle")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("sourceTitle");
+                    b.HasKey("SourceTitleId");
+
+                    b.HasIndex("SourceTitle")
+                        .IsUnique();
 
                     b.ToTable("ReservationsSource");
+
+                    b.HasData(
+                        new
+                        {
+                            SourceTitleId = 1,
+                            SourceTitle = "Phone"
+                        },
+                        new
+                        {
+                            SourceTitleId = 2,
+                            SourceTitle = "Email"
+                        },
+                        new
+                        {
+                            SourceTitleId = 3,
+                            SourceTitle = "Online"
+                        },
+                        new
+                        {
+                            SourceTitleId = 4,
+                            SourceTitle = "In-person"
+                        });
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Sitting", b =>
@@ -335,6 +365,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<int>("SittingCapacity")
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("SittingDate")
+                        .HasColumnType("date");
+
                     b.Property<DateOnly>("SittingEndDate")
                         .HasColumnType("date");
 
@@ -347,13 +380,12 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<TimeOnly>("SittingStartTime")
                         .HasColumnType("time");
 
-                    b.Property<int>("SittingTypeID")
-                        .HasMaxLength(20)
+                    b.Property<int>("SittingTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("SittingId");
 
-                    b.HasIndex("SittingTypeID");
+                    b.HasIndex("SittingTypeId");
 
                     b.ToTable("Sittings");
                 });
@@ -377,17 +409,71 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .IsUnique();
 
                     b.ToTable("SittingTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            SittingTypeId = 1,
+                            SittingTitle = "Breakfast"
+                        },
+                        new
+                        {
+                            SittingTypeId = 2,
+                            SittingTitle = "Lunch"
+                        },
+                        new
+                        {
+                            SittingTypeId = 3,
+                            SittingTitle = "Dinner"
+                        });
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Status", b =>
                 {
+                    b.Property<int>("StatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusId"));
+
                     b.Property<string>("StatusTitle")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("StatusTitle");
+                    b.HasKey("StatusId");
+
+                    b.HasIndex("StatusTitle")
+                        .IsUnique();
 
                     b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            StatusId = 1,
+                            StatusTitle = "Pending"
+                        },
+                        new
+                        {
+                            StatusId = 2,
+                            StatusTitle = "Confirmed"
+                        },
+                        new
+                        {
+                            StatusId = 3,
+                            StatusTitle = "Cancelled"
+                        },
+                        new
+                        {
+                            StatusId = 4,
+                            StatusTitle = "Seated"
+                        },
+                        new
+                        {
+                            StatusId = 5,
+                            StatusTitle = "Completed"
+                        });
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Table", b =>
@@ -395,25 +481,222 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                     b.Property<string>("TableNo")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Area1")
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int>("TableAreaId")
+                        .HasColumnType("int");
 
                     b.HasKey("TableNo");
 
-                    b.HasIndex("Area1");
+                    b.HasIndex("TableAreaId");
+
+                    b.HasIndex("TableNo")
+                        .IsUnique();
 
                     b.ToTable("Table");
+
+                    b.HasData(
+                        new
+                        {
+                            TableNo = "M1",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M2",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M3",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M4",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M5",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M6",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M7",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M8",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M9",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "M10",
+                            TableAreaId = 1
+                        },
+                        new
+                        {
+                            TableNo = "O1",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O2",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O3",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O4",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O5",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O6",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O7",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O8",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O9",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "O10",
+                            TableAreaId = 2
+                        },
+                        new
+                        {
+                            TableNo = "B1",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B2",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B3",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B4",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B5",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B6",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B7",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B8",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B9",
+                            TableAreaId = 3
+                        },
+                        new
+                        {
+                            TableNo = "B10",
+                            TableAreaId = 3
+                        });
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", b =>
                 {
+                    b.Property<int>("TableAreaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TableAreaId"));
+
                     b.Property<string>("Area")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("Area");
+                    b.HasKey("TableAreaId");
+
+                    b.HasIndex("Area")
+                        .IsUnique();
 
                     b.ToTable("TableAreas");
+
+                    b.HasData(
+                        new
+                        {
+                            TableAreaId = 1,
+                            Area = "Main"
+                        },
+                        new
+                        {
+                            TableAreaId = 2,
+                            Area = "Outside"
+                        },
+                        new
+                        {
+                            TableAreaId = 3,
+                            Area = "Balcony"
+                        });
+                });
+
+            modelBuilder.Entity("ReservationTable", b =>
+                {
+                    b.Property<int>("ReservationID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TableNo")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ReservationID", "TableNo");
+
+                    b.HasIndex("TableNo");
+
+                    b.ToTable("ReservationTable", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -427,7 +710,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -436,7 +719,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -451,7 +734,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -460,7 +743,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -469,25 +752,28 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation", b =>
                 {
-                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ReservationSource", "ReservationSource")
-                        .WithMany()
-                        .HasForeignKey("ReservationSourcesourceTitle");
-
                     b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Sitting", "Sitting")
                         .WithMany()
                         .HasForeignKey("SittingId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ReservationSource", "ReservationSource")
+                        .WithMany()
+                        .HasForeignKey("SourceTitleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Status", "Status")
                         .WithMany()
-                        .HasForeignKey("StatusTitle1")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Table", "Table")
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("TableNo")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("ReservationSource");
 
@@ -495,14 +781,14 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
                     b.Navigation("Status");
 
-                    b.Navigation("Table");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Sitting", b =>
                 {
                     b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.SittingType", "SittingType")
                         .WithMany()
-                        .HasForeignKey("SittingTypeID")
+                        .HasForeignKey("SittingTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -511,12 +797,33 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Migrations
 
             modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.Table", b =>
                 {
-                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", "Area")
-                        .WithMany()
-                        .HasForeignKey("Area1")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", "TableArea")
+                        .WithMany("Tables")
+                        .HasForeignKey("TableAreaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("Area");
+                    b.Navigation("TableArea");
+                });
+
+            modelBuilder.Entity("ReservationTable", b =>
+                {
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation", null)
+                        .WithMany()
+                        .HasForeignKey("ReservationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Project_Assessment_Bean_Scene_Registration_Application.Models.Table", null)
+                        .WithMany()
+                        .HasForeignKey("TableNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Project_Assessment_Bean_Scene_Registration_Application.Models.TableArea", b =>
+                {
+                    b.Navigation("Tables");
                 });
 #pragma warning restore 612, 618
         }

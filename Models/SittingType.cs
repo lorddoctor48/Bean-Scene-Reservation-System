@@ -13,6 +13,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
 
         [StringLength(20, MinimumLength = 3)]
         [DisplayName("Sitting")]
+        [Required]
         public required string SittingTitle { get; set; }
     }
 }

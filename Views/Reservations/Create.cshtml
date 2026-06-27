@@ -1,0 +1,133 @@
+@model Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class=" Bean-Scene-h1">Create</h1>
+
+<h2 class=" Bean-Scene-h2">Reservation</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @* <div class="form-group">
+                <label asp-for="MemberID" class="control-label"></label>
+                <input asp-for="MemberID" class="form-control" />
+                <span asp-validation-for="MemberID" class="text-danger"></span>
+            </div> *@
+
+            @* Display user dropdown ONLY for staff/manager *@
+            @if (User.IsInRole("Staff") || User.IsInRole("Manager"))
+            {
+                <div class="form-group">
+                    <label asp-for="UserId" class="control-label"></label>
+                    <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId">
+                        <option value="">-- Select a user --</option>
+                    </select>
+                </div>
+            }
+
+            <div class="form-group">
+                <label asp-for="SittingId" class="control-label"></label>
+                <select asp-for="SittingId" class="form-control" asp-items="ViewBag.SittingId">
+                    <option value="">-- Select a Sitting --</option>
+                </select>
+                <span asp-validation-for="SittingId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNo" class="control-label"></label>
+                <input asp-for="PhoneNo" class="form-control" />
+                <span asp-validation-for="PhoneNo" class="text-danger"></span>
+            </div>
+
+            @* <div class="form-group">
+                <label asp-for="ReservationDate" class="control-label"></label>
+                <input asp-for="ReservationDate" class="form-control" />
+                <span asp-validation-for="ReservationDate" class="text-danger"></span>
+            </div> *@
+
+            <div class="form-group">
+                <label asp-for="ReservationStartTime" class="control-label"></label>
+                <input asp-for="ReservationStartTime" class="form-control" />
+                <span asp-validation-for="ReservationStartTime" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ReservationEndTime" class="control-label"></label>
+                <input asp-for="ReservationEndTime" class="form-control" />
+                <span asp-validation-for="ReservationEndTime" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NumberOfPeople" class="control-label"></label>
+                <input asp-for="NumberOfPeople" class="form-control" />
+                <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
+            </div>
+
+            @if (User.IsInRole("Staff") || User.IsInRole("Manager"))
+            {
+                <div class="form-group">
+                    <label asp-for="SourceTitleId" class="control-label"></label>
+                    <select asp-for="SourceTitleId" class="form-control" asp-items="ViewBag.SourceTitleId">
+                        <option value="">-- Select a source --</option>
+                    </select>
+                    <span asp-validation-for="SourceTitleId" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="SpecialRequests" class="control-label"></label>
+                <input asp-for="SpecialRequests" class="form-control" />
+                <span asp-validation-for="SpecialRequests" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+
+            @* <div class="form-group">
+                <label asp-for="StatusId" class="control-label"></label>
+                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId">
+                    <option value="">-- Select a status --</option>
+                </select>
+            </div> *@
+
+            @* <div class="form-group">
+                <label asp-for="Tables" class="control-label"></label>
+                <input asp-for="Tables" class="form-control" />
+                <span asp-validation-for="Tables" class="text-danger"></span>
+            </div> *@
+            <div class="row mt-4">
+                <div class="form-group col">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+                <div class="form-group col">
+                    <a asp-action="Index" class=" btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

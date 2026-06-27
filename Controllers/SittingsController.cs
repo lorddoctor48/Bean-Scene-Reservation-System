@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project_Assessment_Bean_Scene_Registration_Application.Data;
 using Project_Assessment_Bean_Scene_Registration_Application.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class SittingsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,10 +22,16 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         }
 
         // GET: Sittings
+        // Allow access to ANYONE (even non-logged-in users)
+        //[AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Sittings.Include(s => s.SittingType);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = _context.Sittings.Include(s => s.SittingType)
+                    .OrderBy(s => s.SittingDate)
+                    .ThenBy(s => s.SittingStartTime)
+                    .ThenBy(s => s.SittingEndTime)
+                    .ToListAsync();
+            return View(await applicationDbContext);
         }
 
         // GET: Sittings/Details/5
@@ -48,7 +56,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         // GET: Sittings/Create
         public IActionResult Create()
         {
-            ViewData["SittingTypeID"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTypeId");
+            ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle");
             return View();
         }
 
@@ -57,7 +65,9 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SittingId,SittingTypeID,SittingStartDate,SittingEndDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting)
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
+
+        public async Task<IActionResult> Create([Bind("SittingId,SittingTypeId,SittingDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting)
         {
             if (ModelState.IsValid)
             {
@@ -65,8 +75,54 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SittingTypeID"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTypeId", sitting.SittingTypeID);
+
+            ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle", sitting.SittingTypeId);
             return View(sitting);
+        }
+
+
+        // GET: Sittings/BulkCreateOnRange
+        public IActionResult BulkCreateOnRange()
+        {
+            ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle");
+            return View();
+        }
+
+        // POST: Sittings/BulkCreateOnRange
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
+        public async Task<IActionResult> BulkCreateOnRange([Bind("SittingId,SittingTypeId,SittingStartDate,SittingEndDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting) //A custom method for creating multiple sittings based on the range between start and end date.
+        {
+            if (!ModelState.IsValid) //checking whether the inputted fields 
+            {
+                ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle", sitting.SittingTypeId);
+                return View(sitting);
+            }
+
+            /* A for loop for creating sittings from the inputted start date to the inputted start date */
+            for (var date = sitting.SittingStartDate; date <= sitting.SittingEndDate; date = date.AddDays(1)) //AddDays method to create a date instance for every sitting records being bulk inserted into the database
+            {
+                var newSitting = new Sitting
+                {
+
+                    /* Creating values for the each new sitting records */
+                    SittingTypeId = sitting.SittingTypeId,
+                    SittingDate = date,
+                    SittingStartTime = sitting.SittingStartTime,
+                    SittingEndTime = sitting.SittingEndTime,
+                    SittingCapacity = sitting.SittingCapacity,
+                    IsClosed = sitting.IsClosed,
+                    ClosureDate = sitting.ClosureDate,
+                    ClosureReason = sitting.ClosureReason
+                };
+
+                _context.Sittings.Add(newSitting); //Adding new sitting records into the ApplicationDbContext
+            }
+            await _context.SaveChangesAsync(); //Saves the newly created sittings records
+            return RedirectToAction(nameof(Index)); //Redirect the user to the index page of 
         }
 
         // GET: Sittings/Edit/5
@@ -82,7 +138,7 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
             {
                 return NotFound();
             }
-            ViewData["SittingTypeID"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTypeId", sitting.SittingTypeID);
+            ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle", sitting.SittingTypeId);
             return View(sitting);
         }
 
@@ -91,7 +147,8 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SittingId,SittingTypeID,SittingStartDate,SittingEndDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting)
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
+        public async Task<IActionResult> Edit(int id, [Bind("SittingId,SittingTypeId,SittingDate,SittingStartTime,SittingEndTime,SittingCapacity,IsClosed,ClosureDate,ClosureReason")] Sitting sitting)
         {
             if (id != sitting.SittingId)
             {
@@ -118,11 +175,12 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SittingTypeID"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTypeId", sitting.SittingTypeID);
+            ViewData["SittingTypeId"] = new SelectList(_context.SittingTypes, "SittingTypeId", "SittingTitle", sitting.SittingTypeId);
             return View(sitting);
         }
 
         // GET: Sittings/Delete/5
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,9 +199,31 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Controllers
             return View(sitting);
         }
 
+
+        // GET: RESERVATIONS/Delete/5
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
+        public async Task<IActionResult> DeleteAll()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
+        public async Task<IActionResult> DeleteAll(bool confirmed)
+        {
+            confirmed = true; // Set confirmed to true to proceed with deletion
+
+            // Executes: DELETE FROM [Products] directly on the database
+            await _context.Sittings.ExecuteDeleteAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         // POST: Sittings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")] // ONLY allow access by the Manager role
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var sitting = await _context.Sittings.FindAsync(id);

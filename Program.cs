@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Project_Assessment_Bean_Scene_Registration_Application.Data;
+using Project_Assessment_Bean_Scene_Registration_Application.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +11,37 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
+
+    options.SignIn.RequireConfirmedAccount = true;
+
+    options.Password.RequiredLength = 8;
+    options.Password.RequireNonAlphanumeric = true;
+
+}).AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    // Get EF Core DbContext
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+
+    // OPTIONAL: Automatically apply any pending DB migrations
+    await context.Database.MigrateAsync();
+
+    // Roles are required application data
+    await IdentitySeeder.SeedRolesAsync(services);
+
+    // OPTIONAL: Demo users only exist in Development environment
+    if (app.Environment.IsDevelopment())
+    {
+        await IdentitySeeder.SeedUsersAsync(services);
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -35,13 +62,24 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapRazorPages()
-   .WithStaticAssets();
+
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}")
+//    .WithStaticAssets();
+
+//app.MapRazorPages()
+//   .WithStaticAssets();
+
+app.MapControllers();
+
+app.UseStaticFiles();
+
+
+app.MapRazorPages();
 
 app.Run();

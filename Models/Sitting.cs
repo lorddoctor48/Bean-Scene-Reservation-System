@@ -2,34 +2,49 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Project_Assessment_Bean_Scene_Registration_Application.Models
 {
     public class Sitting
     {
         [Key]
+        [Required]
+        [DisplayName("Sitting Number")]
         public int SittingId { get; set; }
-       
-        [DisplayName("Sitting Title")]
-        [MaxLength(20)]
-        public required int SittingTypeID { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Restrict)]
-        public SittingType? SittingType { get; set; }
+        [DisplayName("Sitting Title")]
+        [Required]
+        public required int SittingTypeId { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:d MMM yyyy}")]
+        [DisplayName("Sitting Date")]
+        public required DateOnly SittingDate { get; set; }
+
+        [Required]
+        [DisplayFormat(DataFormatString = "{0:d MMM yyyy}")]
+        [DataType(DataType.Date)]
         [DisplayName("Sitting Start Date")]
         public DateOnly SittingStartDate { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:d MMM yyyy}")]
+        [DataType(DataType.Date)]
         [DisplayName("Sitting End Date")]
         public DateOnly SittingEndDate { get; set; }
 
         [Required]
+        [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:hh:mm tt}")]
         [DisplayName("Sitting Start Time")]
         public TimeOnly SittingStartTime { get; set; }
 
         [Required]
+        [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:hh:mm tt}")]
         [DisplayName("Sitting End Time")]
         public TimeOnly SittingEndTime { get; set; }
 
@@ -46,6 +61,17 @@ namespace Project_Assessment_Bean_Scene_Registration_Application.Models
         [MaxLength(20)]
         [DisplayName("Closure Reason?")]
         public string? ClosureReason { get; set; }
+
+
+        [NotMapped]
+        [DisplayName("Description")]
+        public string Description { get => $"{this.SittingDate} - {this.SittingType?.SittingTitle ?? "?"} ({this.SittingStartTime} - {this.SittingEndTime})"; }
+
+
+        [DeleteBehavior(DeleteBehavior.Restrict)]
+        [DisplayName("Sitting Type")]
+        public SittingType? SittingType { get; set; }
+
 
     }
 }

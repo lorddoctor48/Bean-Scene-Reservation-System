@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Change Home Image";
+}
+
+<h1 class=" Bean-Scene-h1">Upload New Home Page Image</h1>
+
+<hr/>
+
+<form action="/Home/ChangeHomeImage" class="dropzone" id="homeImageDropzone" enctype="multipart/form-data"></form>
+
+<script>
+    Dropzone.options.homeImageDropzone = {
+        paramName: "imageFile", // must match your controller parameter
+        maxFiles: 1,
+        acceptedFiles: "image/*",
+        dictDefaultMessage: "Drag & drop a new homepage image here",
+        init: function () {
+            this.on("success", function (file, response) {
+                alert("Homepage image updated successfully");
+                window.location.href = "/Home/Index";
+                window.location.reload();
+            });
+        }
+    };
+</script>

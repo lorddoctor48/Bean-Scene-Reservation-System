@@ -1,0 +1,144 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h1 class="Bean-Scene-h1">Manager Dashboard</h1>
+
+<hr />
+
+<div class="row mt-3">
+    <h2 class="Bean-Scene-h2">Reservation and Sittings</h2>
+    <div class=" col mt-2">
+        <div class="card" style="width: 18rem;">
+            @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+            <div class="card-body">
+                <h5 class="card-title">Reservations</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a class="btn btn-primary" area="" asp-controller="Reservations" asp-action="Index">Manage Reservation </a>
+            </div>
+        </div>
+
+    </div>
+    <div class=" col mt-2">
+
+        <div class="card" style="width: 18rem;">
+            @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+            <div class="card-body">
+                <h5 class="card-title">Sittings</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a class="btn btn-primary" area="" asp-controller="Sittings" asp-action="Index">Manage Sitting</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row mt-3">
+    <h2 class="Bean-Scene-h2">Tables and Areas</h2>
+
+    <div class=" col mt-2">
+        <div class="card" style="width: 18rem;">
+            @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+            <div class="card-body">
+                <h5 class="card-title">Tables </h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a class="btn btn-primary" area="" asp-controller="Tables" asp-action="Index">Manage Tables</a>
+            </div>
+        </div>
+    </div>
+    <div class=" col mt-2">
+        <div class="card" style="width: 18rem;">
+            @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+            <div class="card-body">
+                <h5 class="card-title">Table Areas </h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a class="btn btn-primary" area="" asp-controller="TableAreas" asp-action="Index">Manage Table Areas</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <h2 class=" Bean-Scene-h2">Reports</h2>
+
+    <div class=" col mt-2">
+        <div class="card" style="width: 18rem;">
+            @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+            <div class="card-body">
+                <h5 class="card-title">Pending Reservations</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a class="btn btn-primary" area="" asp-controller="Reservations" asp-action="Pending14DaysReport">View Pending Reservations </a>
+            </div>
+        </div>
+    </div>
+    <div class=" col mt-2">
+        <div class="card" style="width: 18rem;">
+            @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+            <div class="card-body">
+                <h5 class="card-title">Reservation Sources</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a class="btn btn-primary" area="" asp-controller="Reservations" asp-action="Source30DaysReport">View Reservation Sources</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+
+    <div class=" col mt-2">
+        <div class="card" style="width: 18rem;">
+            @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+            <div class="card-body">
+                <h5 class="card-title">Assigned Tables</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a class="btn btn-primary" area="" asp-controller="Reservations" asp-action="Tables30DaysReport">View Assigned Tables</a>
+            </div>
+        </div>
+    </div>
+    <div class=" col mt-2">
+        <div class="card" style="width: 18rem;">
+            @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+            <div class="card-body">
+                <h5 class="card-title">Reservation Cancellations</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a class="btn btn-primary" area="" asp-controller="Reservations" asp-action="Cancellations30DaysReport">View Reservation Cancellations</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <h2 class="Bean-Scene-h2">Lookup Tables</h2>
+    <div class=" col mt-2">
+        <div class="card" style="width: 18rem;">
+            @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+            <div class="card-body">
+                <h5 class="card-title">Reservation Sources </h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a class="btn btn-primary" area="" asp-controller="ReservationSources" asp-action="Index">Manage Reservation Sources </a>
+            </div>
+        </div>
+    </div>
+    <div class=" col mt-2">
+        <div class="card" style="width: 18rem;">
+            @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+            <div class="card-body">
+                <h5 class="card-title">Reservation Status </h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a class="btn btn-primary" area="" asp-controller="Status" asp-action="Index">Manage Reservation Status </a>
+            </div>
+        </div>
+    </div>
+    <div class=" col mt-2">
+        <div class="card" style="width: 18rem;">
+            @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+            <div class="card-body">
+                <h5 class="card-title">Sitting Types </h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a class="btn btn-primary" area="" asp-controller="SittingTypes" asp-action="Index">Manage Sitting Types </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('serviceConnectorResourceGroupName')]/providers/Microsoft.Web/sites/ProjectAssessmentBeanSceneRegistrationApp/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsBeanSceneDB1_495F971D2C",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/beansceneserver/databases/beansceneDB",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:BeanSceneDB1",
+      "dynamicId": null
+    }
+  }
+}

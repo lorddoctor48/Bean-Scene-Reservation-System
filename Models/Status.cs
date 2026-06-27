@@ -1,14 +1,19 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Project_Assessment_Bean_Scene_Registration_Application.Models
 {
+    [Index(nameof(StatusTitle), IsUnique = true)]
     public class Status
     {
         [Key]
-        [DisplayName("Status")]
+        [Required]
+        public int StatusId { get; set; }
 
-        [MaxLength(50)]
+        [DisplayName("Status")]
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
         public required string StatusTitle { get; set; }
     }
 }

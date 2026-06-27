@@ -1,0 +1,58 @@
+@model IEnumerable<Project_Assessment_Bean_Scene_Registration_Application.Models.Status>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="Bean-Scene-h1">Reservation Status</h1>
+
+<hr />
+
+<div class="row fs-6">
+    @* <div class="col-md-2">
+        <h1>Sitting Types</h1>
+    </div> *@
+    <div class="col-md-2">
+        <p>
+            <a asp-controller="Home" asp-action="ManagerDashboard" class="btn btn-secondary">Go Back</a>
+        </p>
+
+    </div>
+    <div class="col-md-2">
+        <p>
+            <a asp-action="Create" class="btn btn-primary btn-lg">Add Sitting Type</a>
+        </p>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusTitle)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.StatusTitle)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.StatusId" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-pencil-fill me-1"></i>
+                        Edit
+                    </a>
+                    @* <a asp-action="Details" asp-route-id="@item.SittingTypeId">Details</a> *@
+                    <a asp-action="Delete" asp-route-id="@item.StatusId" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash-fill"></i>
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

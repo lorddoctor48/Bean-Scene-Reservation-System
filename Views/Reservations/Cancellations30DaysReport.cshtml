@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Project_Assessment_Bean_Scene_Registration_Application.Models.Reservation>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h1 class=" Bean-Scene-h1"> All Cancelled Reservations</h1>
+
+
+<h2 class="Bean-Scene-h2">In The Last 30 Days</h2>
+
+<div class="row fs-6">
+    @* <div class="col-md-2">
+        <h1>Sitting Types</h1>
+    </div> *@
+    <div class="col-md-2">
+        <p>
+            <a asp-controller="Home" asp-action="ManagerDashboard" class="btn btn-secondary">Go Back</a>
+        </p>
+
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Reservation No.
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sitting.SittingDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sitting.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReservationStartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReservationEndTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumberOfPeople)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status.StatusTitle)
+                </th>
+                <th>
+                    Tables
+                </th> @* DisplayNameFor cannot be used for collections *@
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReservationId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Sitting.SittingDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Sitting.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.ReservationStartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.ReservationEndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfPeople)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Status.StatusTitle)
+                    </td>
+
+                    <td>
+                        @string.Join(", ", item.Tables.Select(t => t.TableNo))
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
