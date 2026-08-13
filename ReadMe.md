@@ -52,7 +52,7 @@ The Bean Scene Reservation System is an ASP.NET MVC application to be used by th
 ## Technology Stack
 - C# programming language
 - ASP.NET
-- MVV (Model-View-Controller) design pattern
+- MVC (Model-View-Controller) design pattern
 - Entity Framework
 - SQL Server
 - Git & GitHub for version control
